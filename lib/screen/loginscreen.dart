@@ -125,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
         ),
         onPressed: () {
-          context.read<AuthService>().SignIn(_emailController.text, _passwordController.text);
+          context.read<AuthService>().signIn(_emailController.text, _passwordController.text);
         },
         child: const Text(
           "Login",

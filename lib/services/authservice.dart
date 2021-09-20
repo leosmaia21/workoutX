@@ -11,7 +11,7 @@ Stream <User?> get authStateChanges => _firebaseAuth.authStateChanges();
     await _firebaseAuth.signOut();
   }
 
-  Future<String?> SignIn(String email,String password) async{
+  Future<String?> signIn(String email,String password) async{
     try{
       await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
       return "agora deu";
@@ -21,7 +21,7 @@ Stream <User?> get authStateChanges => _firebaseAuth.authStateChanges();
     }
   }
 
-  Future<String?> SignUp(String email,String password) async{
+  Future<String?> signUp(String email,String password) async{
     try{
       await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
       return "agora deu";

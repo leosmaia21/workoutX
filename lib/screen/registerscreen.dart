@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
+import 'package:workout/services/authservice.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({ Key? key }) : super(key: key);
@@ -121,7 +123,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
         ),
-        onPressed: () {},
+        onPressed: () {
+          context.read<AuthService>().signUp(_emailController.text, _passwordController.text);
+        },
         child: const Text(
           "Create",
           style: TextStyle(
@@ -156,7 +160,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ],
           ),
         ),
-        child: SingleChildScrollView(
+        child: SingleChildScrollView (
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
