@@ -70,9 +70,48 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
         TextFormField(
-          validator: (value) => EmailValidator.validate(value!)
-              ? null
-              : "Por amor de deus, mete um mail em condições!!",
+          validator: (value) => value!.length<6
+              ? "Pass igual a tua piça, CURTA!!"
+              : null,
+
+          // onSaved: (val) => _username = val,
+
+          obscureText: false,
+          keyboardType: TextInputType.emailAddress,
+          //controller: _controllerUsername,
+          autocorrect: false,
+          decoration: const InputDecoration(
+            errorStyle: TextStyle(
+              fontSize: 15,
+              color: Colors.black,
+            ),
+            errorMaxLines: 2,
+            hintText: 'É bom que metas uma pass boa',
+            border: InputBorder.none,
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                borderSide: BorderSide(color: Colors.blue)),
+            contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _phone() {
+     return Stack(
+      children: [
+        Container(
+          height: 50,
+          decoration: BoxDecoration(
+            color: Colors.yellow[200],
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+        TextFormField(
+          validator: (value) => value!.length<6
+              ? "Pass igual a tua piça, CURTA!!"
+              : null,
 
           // onSaved: (val) => _username = val,
 
@@ -123,7 +162,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           submit();
         },
         child: const Text(
-          "Create",
+          "Criar",
           style: TextStyle(
             fontSize: 20,
           ),
