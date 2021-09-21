@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 import 'package:workout/screen/registerscreen.dart';
@@ -103,6 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   Widget _buttonLogin(BuildContext context1) {
     return Container(
@@ -125,7 +127,10 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
         ),
         onPressed: () {
-          context.read<AuthService>().signIn(_emailController.text, _passwordController.text);
+          // context
+          //     .read<AuthService>()
+          //     .signIn(_emailController.text, _passwordController.text);
+          users.add({'name':'Leoanrdo','Funciona':'sim'}).then((value) => print('user ADDED'));
         },
         child: const Text(
           "Login",
@@ -220,7 +225,7 @@ class _LoginScreenState extends State<LoginScreen> {
               //   width: 40,
               // ),
               _buttonLogin(context),
-        
+
               _registerButton(),
             ],
           ),

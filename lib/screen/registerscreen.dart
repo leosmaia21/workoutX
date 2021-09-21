@@ -2,7 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 import 'package:workout/services/authservice.dart';
-
+//import 'package:cloud_firestore/cloud_firestore.dart';
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
 
@@ -133,7 +133,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ],
     );
   }
-
+  //CollectionReference users = FirebaseFirestore.instance.collection('users');
   Widget _buttonLogin(BuildContext context1) {
     return Container(
       margin: const EdgeInsets.symmetric(
@@ -154,8 +154,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
         ),
-        onPressed: () {
-          submit();
+        onPressed: ()  {
+           //users.add({'name':'Leoanrdo','Funciona':'sim'}).then((value) => print('user ADDED'));
+          //submit();
         },
         child: const Text(
           "Criar",
