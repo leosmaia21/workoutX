@@ -39,15 +39,15 @@ class MyApp extends StatelessWidget {
 }
 
 class Wrapper extends StatelessWidget {
-  const Wrapper({ Key? key }) : super(key: key);
+  const Wrapper({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-   final _firebaseUser= context.watch<User?>();
-      if(_firebaseUser!=null){
-        return HomeScreen();
-      }
-      return LoginScreen();
-    
-  }
+    final _firebaseUser= context.watch<User?>();
+    if(_firebaseUser!=null){
+      return HomeScreen();
+    }
+    return LoginScreen();
+   
+  } 
 }

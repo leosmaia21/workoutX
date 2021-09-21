@@ -1,107 +1,103 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 import 'package:workout/services/authservice.dart';
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({ Key? key }) : super(key: key);
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
- final _emailController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  String? email;
+  String? password;
+  
+  
   Widget _email() {
-    return Container(
-      height: 60,
-      alignment: Alignment.center,
-      margin: const EdgeInsets.symmetric(
-        vertical: 20,
-        //horizontal: 10,
-      ),
-      //height: 50,
-      decoration: BoxDecoration(
-        color: Color(0xFFE60505),
-        borderRadius: BorderRadius.circular(50.0),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 20.0,
-            offset: Offset(0, 10),
+    return Stack(
+      children: [
+        Container(
+          height: 50,
+          decoration: BoxDecoration(
+            color: Colors.yellow[200],
+            borderRadius: BorderRadius.circular(30),
           ),
-        ],
-      ),
-      child: TextField(
-        keyboardType: TextInputType.emailAddress,
-        controller: _emailController,
-        style: const TextStyle(
-          color: Colors.white,
-          fontFamily: 'OpenSans',
         ),
-        decoration: const InputDecoration(
+        TextFormField(
+          validator: (value) => EmailValidator.validate(value!)
+              ? null
+              : "Por amor de deus, mete um mail em condições!!",
+
+          // onSaved: (val) => _username = val,
+
+          obscureText: false,
+          keyboardType: TextInputType.emailAddress,
+          //controller: _controllerUsername,
+          autocorrect: false,
+          decoration: const InputDecoration(
+            errorStyle: TextStyle(
+              fontSize: 15,
+              color: Colors.black,
+            ),
+            errorMaxLines: 2,
+            hintText: 'Mete o crl do mail',
             border: InputBorder.none,
-            //contentPadding: EdgeInsets.zero,
-            prefixIcon: Icon(
-              Icons.person,
-              color: Colors.white,
-            ),
-            hintText: 'Enter your Email',
-            hintStyle: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-            )
-            //hintStyle: kHintTextStyle,
-            ),
-      ),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                borderSide: BorderSide(color: Colors.blue)),
+            contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+          ),
+        ),
+      ],
     );
   }
 
   Widget _password() {
-    return Container(
-      height: 60,
-      alignment: Alignment.center,
-      margin: const EdgeInsets.symmetric(
-        vertical: 10,
-        //horizontal: 10,
-      ),
-      //height: 50,
-      decoration: BoxDecoration(
-        color: Color(0xFFE60505),
-        borderRadius: BorderRadius.circular(50.0),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 20.0,
-            offset: Offset(0, 10),
+     return Stack(
+      children: [
+        Container(
+          height: 50,
+          decoration: BoxDecoration(
+            color: Colors.yellow[200],
+            borderRadius: BorderRadius.circular(30),
           ),
-        ],
-      ),
-      child: TextField(
-        controller: _passwordController,
-        obscureText: true,
-        style: const TextStyle(
-          color: Colors.white,
-          fontFamily: 'OpenSans',
         ),
-        decoration: const InputDecoration(
+        TextFormField(
+          validator: (value) => EmailValidator.validate(value!)
+              ? null
+              : "Por amor de deus, mete um mail em condições!!",
+
+          // onSaved: (val) => _username = val,
+
+          obscureText: false,
+          keyboardType: TextInputType.emailAddress,
+          //controller: _controllerUsername,
+          autocorrect: false,
+          decoration: const InputDecoration(
+            errorStyle: TextStyle(
+              fontSize: 15,
+              color: Colors.black,
+            ),
+            errorMaxLines: 2,
+            hintText: 'É bom que metas uma pass boa',
             border: InputBorder.none,
-            //contentPadding: EdgeInsets.only(top: 14.0),
-            prefixIcon: Icon(
-              Icons.lock,
-              color: Colors.white,
-            ),
-            hintText: 'Enter your password',
-            hintStyle: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-            )
-            //hintStyle: kHintTextStyle,
-            ),
-      ),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                borderSide: BorderSide(color: Colors.blue)),
+            contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+          ),
+        ),
+      ],
     );
   }
+  
 
   Widget _buttonLogin(BuildContext context1) {
     return Container(
@@ -124,7 +120,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
         ),
         onPressed: () {
-          context.read<AuthService>().signUp(_emailController.text, _passwordController.text);
+          submit();
         },
         child: const Text(
           "Create",
@@ -136,61 +132,65 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
- 
+  void submit() {
+    final form = formKey.currentState!;
+    (form.validate()) ? print("ola") : print("agora nao");
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 40.0,
-          vertical: 50.0,
-        ),
-        height: double.infinity,
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFFF46404),
-              Color(0xFFE0740F),
-              Color(0xFFC08043),
-              Color(0xFFDB9F89),
-            ],
+      body: Form(
+        key: formKey,
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 40.0,
+            vertical: 50.0,
           ),
-        ),
-        child: SingleChildScrollView (
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20.0,
-                  vertical: 20.0,
-                ),
-                child: const Text(
-                  "Sign Up",
-                  //textAlign: TextAlign.left,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'OpenSans',
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.bold,
+          height: double.infinity,
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color(0xFFF46404),
+                Color(0xFFE0740F),
+                Color(0xFFC08043),
+                Color(0xFFDB9F89),
+              ],
+            ),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0,
+                    vertical: 20.0,
+                  ),
+                  child: const Text(
+                    "Sign Up",
+                    //textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'OpenSans',
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              ),
-              //SizedBox(height: 60.0),
-              _email(),
-              //SizedBox(height: 30.0),
-              _password(),
-              // SizedBox(
-              //   width: 40,
-              // ),
-              _buttonLogin(context),
-        
-              
-            ],
+                //SizedBox(height: 60.0),
+                _email(),
+                SizedBox(height: 20.0),
+                _password(),
+                // SizedBox(
+                //   width: 20,
+                // ),
+                _buttonLogin(context),
+              ],
+            ),
           ),
         ),
       ),

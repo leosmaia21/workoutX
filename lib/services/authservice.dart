@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:workout/utilities/toast.dart';
 
 class AuthService{
   final FirebaseAuth _firebaseAuth;
@@ -24,7 +25,8 @@ Stream <User?> get authStateChanges => _firebaseAuth.authStateChanges();
   Future<String?> signUp(String email,String password) async{
     try{
       await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-      return "agora deu";
+      toast("Conta criada");
+      //return "agora deu";
 
     }on FirebaseAuthException catch(e){
       return e.message;
