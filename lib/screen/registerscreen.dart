@@ -18,8 +18,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   String? email;
   String? password;
-  
-  
+  String? phone;
+
   Widget _email() {
     return Stack(
       children: [
@@ -35,7 +35,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ? null
               : "Por amor de deus, mete um mail em condições!!",
 
-          // onSaved: (val) => _username = val,
+          onSaved: (val) => email = val,
 
           obscureText: false,
           keyboardType: TextInputType.emailAddress,
@@ -60,7 +60,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _password() {
-     return Stack(
+    return Stack(
       children: [
         Container(
           height: 50,
@@ -70,14 +70,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
         TextFormField(
-          validator: (value) => value!.length<6
-              ? "Pass igual a tua piça, CURTA!!"
-              : null,
+          validator: (value) =>
+              value!.length < 6 ? "Pass igual a tua piça, CURTA!!" : null,
 
-          // onSaved: (val) => _username = val,
+          onSaved: (val) => password = val,
 
           obscureText: false,
-          keyboardType: TextInputType.emailAddress,
+          keyboardType: TextInputType.name,
           //controller: _controllerUsername,
           autocorrect: false,
           decoration: const InputDecoration(
@@ -99,7 +98,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _phone() {
-     return Stack(
+    return Stack(
       children: [
         Container(
           height: 50,
@@ -109,14 +108,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
         TextFormField(
-          validator: (value) => value!.length<6
-              ? "Pass igual a tua piça, CURTA!!"
-              : null,
+          validator: (value) => value!.length < 9 ? "9 digitos" : null,
 
-          // onSaved: (val) => _username = val,
+          onSaved: (val) => phone = val,
 
           obscureText: false,
-          keyboardType: TextInputType.emailAddress,
+          keyboardType: TextInputType.phone,
           //controller: _controllerUsername,
           autocorrect: false,
           decoration: const InputDecoration(
@@ -125,7 +122,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               color: Colors.black,
             ),
             errorMaxLines: 2,
-            hintText: 'É bom que metas uma pass boa',
+            hintText: 'Telemóvel',
             border: InputBorder.none,
             focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(30.0)),
@@ -136,7 +133,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ],
     );
   }
-  
 
   Widget _buttonLogin(BuildContext context1) {
     return Container(
@@ -173,7 +169,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void submit() {
     final form = formKey.currentState!;
-    (form.validate()) ? print("ola") : print("agora nao");
+    form.save();
+    if (form.validate()) {
+      context.read<AuthService>().signUp(email!, password!);
+    }
   }
 
   @override
@@ -224,9 +223,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 _email(),
                 SizedBox(height: 20.0),
                 _password(),
-                // SizedBox(
-                //   width: 20,
-                // ),
+                SizedBox(height: 20),
+                _phone(),
                 _buttonLogin(context),
               ],
             ),
