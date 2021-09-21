@@ -127,10 +127,10 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
         ),
         onPressed: () {
-          // context
-          //     .read<AuthService>()
-          //     .signIn(_emailController.text, _passwordController.text);
-          users.add({'name':'Leoanrdo','Funciona':'sim'}).then((value) => print('user ADDED'));
+          context
+              .read<AuthService>()
+              .signIn(_emailController.text, _passwordController.text);
+          //users.add({'name':'Leoanrdo','Funciona':'sim'}).then((value) => print('user ADDED'));
         },
         child: const Text(
           "Login",

@@ -1,7 +1,11 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/src/provider.dart';
 import 'package:workout/services/authservice.dart';
+
 //import 'package:cloud_firestore/cloud_firestore.dart';
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -13,12 +17,14 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final formKey = GlobalKey<FormState>();
 
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _ageController = TextEditingController();
 
   String? email;
   String? password;
   String? phone;
+  String? age;
+  String? name;
 
   Widget _email() {
     return Stack(
@@ -75,7 +81,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
           onSaved: (val) => password = val,
 
-          obscureText: false,
+          obscureText: true,
           keyboardType: TextInputType.name,
           //controller: _controllerUsername,
           autocorrect: false,
@@ -113,7 +119,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
           onSaved: (val) => phone = val,
 
           obscureText: false,
-          keyboardType: TextInputType.phone,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+          ],
+          keyboardType: TextInputType.number,
           //controller: _controllerUsername,
           autocorrect: false,
           decoration: const InputDecoration(
@@ -133,6 +142,84 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ],
     );
   }
+
+  Widget _name() {
+    return Stack(
+      children: [
+        Container(
+          height: 50,
+          decoration: BoxDecoration(
+            color: Colors.yellow[200],
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+        TextFormField(
+          validator: (value) => value!.isEmpty ? "Insira nome" : null,
+
+          onSaved: (val) => name = val,
+          //controller: _nameController,
+          obscureText: false,
+          keyboardType: TextInputType.name,
+          //controller: _controllerUsername,
+          autocorrect: false,
+          decoration: const InputDecoration(
+            errorStyle: TextStyle(
+              fontSize: 15,
+              color: Colors.black,
+            ),
+            errorMaxLines: 2,
+            hintText: 'Nome',
+            border: InputBorder.none,
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                borderSide: BorderSide(color: Colors.blue)),
+            contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _age() {
+    return Stack(
+      children: [
+        Container(
+          height: 50,
+          decoration: BoxDecoration(
+            color: Colors.yellow[200],
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+        TextFormField(
+          validator: (value) => value!.isEmpty ? "Idade...":null,
+
+          onSaved: (val) => age = val,
+          //controller: _ageController,
+          obscureText: false,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+          ],
+          keyboardType: TextInputType.number,
+          //controller: _controllerUsername,
+          autocorrect: false,
+          decoration: const InputDecoration(
+            errorStyle: TextStyle(
+              fontSize: 15,
+              color: Colors.black,
+            ),
+            errorMaxLines: 2,
+            hintText: 'Idade',
+            border: InputBorder.none,
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                borderSide: BorderSide(color: Colors.blue)),
+            contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+          ),
+        ),
+      ],
+    );
+  }
+
   //CollectionReference users = FirebaseFirestore.instance.collection('users');
   Widget _buttonLogin(BuildContext context1) {
     return Container(
@@ -154,9 +241,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
         ),
-        onPressed: ()  {
-           //users.add({'name':'Leoanrdo','Funciona':'sim'}).then((value) => print('user ADDED'));
-          //submit();
+        onPressed: () {
+          //users.add({'name':'Leoanrdo','Funciona':'sim'}).then((value) => print('user ADDED'));
+          submit();
         },
         child: const Text(
           "Criar",
@@ -172,7 +259,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final form = formKey.currentState!;
     form.save();
     if (form.validate()) {
-      context.read<AuthService>().signUp(email!, password!);
+      context.read<AuthService>().signUp(email: email!,password: password!,name: name!,age: age!,phone: phone!);
     }
   }
 
@@ -221,11 +308,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 //SizedBox(height: 60.0),
+                _name(),
+                SizedBox(height: 20.0),
+                _phone(),
+                SizedBox(height: 20.0),
+                _age(),
+                SizedBox(height: 20.0),
                 _email(),
                 SizedBox(height: 20.0),
                 _password(),
                 SizedBox(height: 20),
-                _phone(),
+
                 _buttonLogin(context),
               ],
             ),
