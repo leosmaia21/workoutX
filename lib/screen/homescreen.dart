@@ -1,4 +1,5 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 import 'package:workout/services/authservice.dart';
@@ -21,12 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SizedBox(
           height: 50,
           width: 50,
-          child: ElevatedButton(
-            child: Text("logout"),
-            onPressed: () {
-              context.read<AuthService>().signOut();
-            },
-          ),
+          child: Text(FirebaseAuth.instance.currentUser!.uid.toString()),
         ),
       ),
     ));

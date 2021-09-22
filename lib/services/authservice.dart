@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:workout/databasemanager/databasemanager.dart';
+import 'package:workout/screen/homescreen.dart';
 import 'package:workout/utilities/toast.dart';
 
 class AuthService{
@@ -8,6 +10,12 @@ class AuthService{
   AuthService(this._firebaseAuth);
 
 Stream <User?> get authStateChanges => _firebaseAuth.authStateChanges();
+
+  // Future<String?> getUser() async{
+  // final User user = await FirebaseAuth.instance.currentUser();
+  //   final String uid = user.uid.toString();
+  // return uid;
+  // }
 
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
@@ -27,7 +35,8 @@ Stream <User?> get authStateChanges => _firebaseAuth.authStateChanges();
     try{
      final user= await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
      String? uid=user.user?.uid.toString();
-      DatabaseManager().insertUser(name: name, email: email, phone: int.parse(phone), age: int.parse(age),uid: uid!);
+      await DatabaseManager().insertUser(name: name, email: email, phone: int.parse(phone), age: int.parse(age),uid: uid!);
+      
       //return "agora deu";
 
     }on FirebaseAuthException catch(e){

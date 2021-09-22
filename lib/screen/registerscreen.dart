@@ -4,6 +4,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/src/provider.dart';
+import 'package:workout/screen/homescreen.dart';
 import 'package:workout/services/authservice.dart';
 
 //import 'package:cloud_firestore/cloud_firestore.dart';
@@ -241,9 +242,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
         ),
-        onPressed: () {
+        onPressed: () async {
           //users.add({'name':'Leoanrdo','Funciona':'sim'}).then((value) => print('user ADDED'));
-          submit();
+         await  submit();
         },
         child: const Text(
           "Criar",
@@ -255,11 +256,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  void submit() {
+  Future<void> submit() async{
     final form = formKey.currentState!;
     form.save();
     if (form.validate()) {
-      context.read<AuthService>().signUp(email: email!,password: password!,name: name!,age: age!,phone: phone!);
+      await context.read<AuthService>().signUp(email: email!,password: password!,name: name!,age: age!,phone: phone!);
+       Navigator.push(
+          context,MaterialPageRoute(builder: (context) => HomeScreen()));
     }
   }
 
