@@ -56,9 +56,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             errorMaxLines: 2,
             hintText: 'Mete o crl do mail',
             border: InputBorder.none,
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                borderSide: BorderSide(color: Colors.blue)),
+            // focusedBorder: OutlineInputBorder(
+            //   borderRadius: BorderRadius.all(Radius.circular(30.0)),
+            //   borderSide: BorderSide(color: Colors.blue),
+            // ),
             contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
           ),
         ),
@@ -94,9 +95,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             errorMaxLines: 2,
             hintText: 'É bom que metas uma pass boa',
             border: InputBorder.none,
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                borderSide: BorderSide(color: Colors.blue)),
+            // focusedBorder: OutlineInputBorder(
+            //   borderRadius: BorderRadius.all(Radius.circular(30.0)),
+            //   borderSide: BorderSide(color: Colors.blue),
+            // ),
             contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
           ),
         ),
@@ -134,9 +136,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             errorMaxLines: 2,
             hintText: 'Telemóvel',
             border: InputBorder.none,
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                borderSide: BorderSide(color: Colors.blue)),
+            // focusedBorder: OutlineInputBorder(
+            //   borderRadius: BorderRadius.all(Radius.circular(30.0)),
+            //   borderSide: BorderSide(color: Colors.blue),
+            // ),
             contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
           ),
         ),
@@ -171,9 +174,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             errorMaxLines: 2,
             hintText: 'Nome',
             border: InputBorder.none,
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                borderSide: BorderSide(color: Colors.blue)),
+            // focusedBorder: OutlineInputBorder(
+            //   borderRadius: BorderRadius.all(Radius.circular(30.0)),
+            //   borderSide: BorderSide(color: Colors.blue),
+            // ),
             contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
           ),
         ),
@@ -192,7 +196,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
         TextFormField(
-          validator: (value) => value!.isEmpty ? "Idade...":null,
+          validator: (value) => value!.isEmpty ? "Idade..." : null,
 
           onSaved: (val) => age = val,
           //controller: _ageController,
@@ -211,9 +215,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             errorMaxLines: 2,
             hintText: 'Idade',
             border: InputBorder.none,
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                borderSide: BorderSide(color: Colors.blue)),
+            // focusedBorder: OutlineInputBorder(
+            //   borderRadius: BorderRadius.all(Radius.circular(30.0)),
+            //   borderSide: BorderSide(color: Colors.blue),
+            // ),
             contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
           ),
         ),
@@ -244,7 +249,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         onPressed: () async {
           //users.add({'name':'Leoanrdo','Funciona':'sim'}).then((value) => print('user ADDED'));
-         await  submit();
+          await submit();
         },
         child: const Text(
           "Criar",
@@ -256,13 +261,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Future<void> submit() async{
+  Future<void> submit() async {
     final form = formKey.currentState!;
     form.save();
     if (form.validate()) {
-      await context.read<AuthService>().signUp(email: email!,password: password!,name: name!,age: age!,phone: phone!);
-       Navigator.push(
-          context,MaterialPageRoute(builder: (context) => HomeScreen()));
+      await context.read<AuthService>().signUp(
+          email: email!,
+          password: password!,
+          name: name!,
+          age: age!,
+          phone: phone!);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => HomeScreen()));
     }
   }
 
@@ -274,7 +284,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: Container(
           padding: const EdgeInsets.symmetric(
             horizontal: 40.0,
-            vertical: 50.0,
+            vertical: 0,
           ),
           height: double.infinity,
           width: double.infinity,
@@ -294,6 +304,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                SizedBox(
+                  height: 50,
+                ),
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20.0,
