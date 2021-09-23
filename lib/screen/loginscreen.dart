@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 import 'package:workout/screen/registerscreen.dart';
 import 'package:workout/services/authservice.dart';
+import 'package:workout/utilities/loading.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -104,6 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   Widget _buttonLogin(BuildContext context1) {
@@ -126,10 +129,13 @@ class _LoginScreenState extends State<LoginScreen> {
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
         ),
-        onPressed: () {
-          context
+        onPressed: () async {
+          buildLoading(context);
+          await context
               .read<AuthService>()
               .signIn(_emailController.text, _passwordController.text);
+          Navigator.of(context).pop();
+          print("dialog final");
           //users.add({'name':'Leoanrdo','Funciona':'sim'}).then((value) => print('user ADDED'));
         },
         child: const Text(
@@ -179,6 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        
         padding: const EdgeInsets.symmetric(
           horizontal: 40.0,
           vertical: 50.0,
@@ -186,6 +193,11 @@ class _LoginScreenState extends State<LoginScreen> {
         height: double.infinity,
         width: double.infinity,
         decoration: const BoxDecoration(
+          // image: DecorationImage(
+          //   image: AssetImage('lib\assets\images\moniz_crl.PNG'),
+          //   alignment: Alignment.bottomRight,
+          //   fit: BoxFit.cover,
+          // ),
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,

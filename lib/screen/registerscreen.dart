@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/src/provider.dart';
 import 'package:workout/screen/homescreen.dart';
 import 'package:workout/services/authservice.dart';
+import 'package:workout/utilities/loading.dart';
 
 //import 'package:cloud_firestore/cloud_firestore.dart';
 class RegisterScreen extends StatefulWidget {
@@ -253,6 +254,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         onPressed: () async {
           //users.add({'name':'Leoanrdo','Funciona':'sim'}).then((value) => print('user ADDED'));
+          
           await submit();
         },
         child: const Text(
@@ -266,15 +268,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Future<void> submit() async {
+    
     final form = formKey.currentState!;
     form.save();
+    
     if (form.validate()) {
+      buildLoading(context);
       final x = await context.read<AuthService>().signUp(
           email: email!,
           password: password!,
           name: name!,
           age: age!,
           phone: phone!);
+          Navigator.of(context).pop();
+     
       (x == true)
           ? Navigator.push(
               context, MaterialPageRoute(builder: (context) => HomeScreen()))

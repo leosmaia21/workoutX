@@ -8,31 +8,46 @@ import 'package:workout/services/authservice.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+
+  final Future<FirebaseApp> _fbApp = Firebase.initializeApp();
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        Provider<AuthService>(
-          create: (_) => AuthService(FirebaseAuth.instance),
-        ),
-        StreamProvider(
-          create: (context) => context.read<AuthService>().authStateChanges,
-          initialData: null,
-        ),
-      ],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData.dark(),
-        
-        home: Wrapper(),
-      ),
+    return FutureBuilder(
+      future: _fbApp,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          print('You have an error!');
+          return Text('Alguma coisa deu erro');
+        } else if (snapshot.hasData) {
+          return MultiProvider(
+            providers: [
+              Provider<AuthService>(
+                create: (_) => AuthService(FirebaseAuth.instance),
+              ),
+              StreamProvider(
+                create: (context) =>
+                    context.read<AuthService>().authStateChanges,
+                initialData: null,
+              ),
+            ],
+            child: MaterialApp(
+              title: 'Flutter Demo',
+              theme: ThemeData.dark(),
+              home: Wrapper(),
+            ),
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
     );
   }
 }
@@ -42,11 +57,10 @@ class Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _firebaseUser= context.watch<User?>();
-    if(_firebaseUser!=null){
+    final _firebaseUser = context.watch<User?>();
+    if (_firebaseUser != null) {
       return HomeScreen();
     }
     return LoginScreen();
-   
-  } 
+  }
 }
