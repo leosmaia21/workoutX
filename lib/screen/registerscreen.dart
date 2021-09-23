@@ -38,12 +38,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
         TextFormField(
-          validator: (value) => EmailValidator.validate(value!)
-              ? null
-              : "Por amor de deus, mete um mail em condições!!",
+          validator: (value) =>
+              EmailValidator.validate(value!) ? null : "Email inválido ",
 
           onSaved: (val) => email = val,
-
+          style: TextStyle(
+            color: Colors.black,
+          ),
           obscureText: false,
           keyboardType: TextInputType.emailAddress,
           //controller: _controllerUsername,
@@ -54,7 +55,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               color: Colors.black,
             ),
             errorMaxLines: 2,
-            hintText: 'Mete o crl do mail',
+            hintText: 'Email',
+            hintStyle: TextStyle(color: Colors.black),
             border: InputBorder.none,
             // focusedBorder: OutlineInputBorder(
             //   borderRadius: BorderRadius.all(Radius.circular(30.0)),
@@ -79,10 +81,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         TextFormField(
           validator: (value) =>
-              value!.length < 6 ? "Pass igual a tua piça, CURTA!!" : null,
+              value!.length < 6 ? "Mínimo 6 caracteres" : null,
 
           onSaved: (val) => password = val,
-
+          style: TextStyle(
+            color: Colors.black,
+          ),
           obscureText: true,
           keyboardType: TextInputType.name,
           //controller: _controllerUsername,
@@ -93,7 +97,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               color: Colors.black,
             ),
             errorMaxLines: 2,
-            hintText: 'É bom que metas uma pass boa',
+            hintText: 'Palavra-passe',
+            hintStyle: TextStyle(color: Colors.black),
             border: InputBorder.none,
             // focusedBorder: OutlineInputBorder(
             //   borderRadius: BorderRadius.all(Radius.circular(30.0)),
@@ -117,10 +122,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
         TextFormField(
-          validator: (value) => value!.length < 9 ? "9 digitos" : null,
+          validator: (value) => value!.length != 9 ? "9 digitos" : null,
 
           onSaved: (val) => phone = val,
-
+          style: TextStyle(
+            color: Colors.black,
+          ),
           obscureText: false,
           inputFormatters: <TextInputFormatter>[
             FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
@@ -135,6 +142,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             errorMaxLines: 2,
             hintText: 'Telemóvel',
+            hintStyle: TextStyle(color: Colors.black),
             border: InputBorder.none,
             // focusedBorder: OutlineInputBorder(
             //   borderRadius: BorderRadius.all(Radius.circular(30.0)),
@@ -161,6 +169,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           validator: (value) => value!.isEmpty ? "Insira nome" : null,
 
           onSaved: (val) => name = val,
+          style: TextStyle(
+            color: Colors.black,
+          ),
           //controller: _nameController,
           obscureText: false,
           keyboardType: TextInputType.name,
@@ -173,6 +184,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             errorMaxLines: 2,
             hintText: 'Nome',
+            hintStyle: TextStyle(color: Colors.black),
             border: InputBorder.none,
             contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
           ),
@@ -192,9 +204,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
         TextFormField(
-          validator: (value) => value!.isEmpty ? "Idade..." : null,
-
+          validator: (value) => value!.isEmpty ? "Idade inválida" : null,
           onSaved: (val) => age = val,
+          style: TextStyle(color: Colors.black),
           //controller: _ageController,
           obscureText: false,
           inputFormatters: <TextInputFormatter>[
@@ -210,6 +222,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             errorMaxLines: 2,
             hintText: 'Idade',
+            hintStyle: TextStyle(color: Colors.black),
             border: InputBorder.none,
             contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
           ),
@@ -306,7 +319,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     vertical: 20.0,
                   ),
                   child: const Text(
-                    "Sign Up",
+                    "Criar conta",
                     //textAlign: TextAlign.left,
                     style: TextStyle(
                       color: Colors.white,
