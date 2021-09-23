@@ -174,10 +174,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             errorMaxLines: 2,
             hintText: 'Nome',
             border: InputBorder.none,
-            // focusedBorder: OutlineInputBorder(
-            //   borderRadius: BorderRadius.all(Radius.circular(30.0)),
-            //   borderSide: BorderSide(color: Colors.blue),
-            // ),
             contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
           ),
         ),
@@ -215,10 +211,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             errorMaxLines: 2,
             hintText: 'Idade',
             border: InputBorder.none,
-            // focusedBorder: OutlineInputBorder(
-            //   borderRadius: BorderRadius.all(Radius.circular(30.0)),
-            //   borderSide: BorderSide(color: Colors.blue),
-            // ),
             contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
           ),
         ),
@@ -226,7 +218,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  //CollectionReference users = FirebaseFirestore.instance.collection('users');
   Widget _buttonLogin(BuildContext context1) {
     return Container(
       margin: const EdgeInsets.symmetric(
@@ -265,14 +256,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final form = formKey.currentState!;
     form.save();
     if (form.validate()) {
-      await context.read<AuthService>().signUp(
+      final x = await context.read<AuthService>().signUp(
           email: email!,
           password: password!,
           name: name!,
           age: age!,
           phone: phone!);
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      (x == true)
+          ? Navigator.push(
+              context, MaterialPageRoute(builder: (context) => HomeScreen()))
+          : null;
     }
   }
 

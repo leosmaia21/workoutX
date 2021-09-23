@@ -31,20 +31,21 @@ Stream <User?> get authStateChanges => _firebaseAuth.authStateChanges();
     }
   }
 
-  Future<String?> signUp( {required String email,required String password,required String name,required String age,required String phone}) async{
+  Future<bool?> signUp( {required String email,required String password,required String name,required String age,required String phone}) async{
     try{
      final user= await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
      String? uid=user.user?.uid.toString();
       await DatabaseManager().insertUser(name: name, email: email, phone: int.parse(phone), age: int.parse(age),uid: uid!);
       
-      //return "agora deu";
+      return true;
 
     }on FirebaseAuthException catch(e){
-      return e.message;
+     if (e.code == 'email-already-in-use') {
+    toast("Email já usado");
+    return false;
     }
+   
   }
 
-
-
-
+}
 }
