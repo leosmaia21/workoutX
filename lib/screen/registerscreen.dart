@@ -8,6 +8,8 @@ import 'package:workout/screen/homescreen.dart';
 import 'package:workout/services/authservice.dart';
 import 'package:workout/utilities/loading.dart';
 
+import '../main.dart';
+
 //import 'package:cloud_firestore/cloud_firestore.dart';
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -283,12 +285,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       if (x == true) {
         Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) => HomeScreen(),
-          ),
-          (route) => false,
-        );
+        context,
+        MaterialPageRoute(builder: (context) => Wrapper()),
+            (_) => false
+    );
       }
     }
   }
