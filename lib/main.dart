@@ -1,3 +1,4 @@
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -46,8 +47,8 @@ class MyApp extends StatelessWidget {
         } else {
           return const Center(
             child: Image(
-            image: AssetImage('lib/assets/images/cara_moniz_gif.gif'),
-          ),
+              image: AssetImage('lib/assets/images/cara_moniz_gif.gif'),
+            ),
           );
         }
       },
@@ -55,23 +56,61 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class Wrapper extends StatefulWidget {
+  Wrapper({Key? key}) : super(key: key);
 
-class Wrapper extends StatelessWidget {
-   Wrapper({Key? key}) : super(key: key);
-  var first=true;
+  @override
+  State<Wrapper> createState() => _WrapperState();
+}
+
+class _WrapperState extends State<Wrapper> {
+  var first = true;
+  Future? x;
+
+  Future _getU() async {
+    await FirebaseAuth.instance.currentUser?.reload();
+    return FirebaseAuth.instance.currentUser;
+
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    x = _getU();
+  }
 
   @override
   Widget build(BuildContext context) {
-   // buildLoading(context);
-    
-    var _firebaseUser =  context.watch<User?>();
-    if (_firebaseUser != null) {
-     // Navigator.of(context).pop();
-      return HomeScreen();
-      
+    // buildLoading(context);
+    var _firebaseUser = context.watch<User?>();
+    if (first) {
+      return FutureBuilder(
+          future: x,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (FirebaseAuth.instance.currentUser != null) {
+                first = false;
+                return HomeScreen();
+              } else {
+                first = false;
+                return LoginScreen();
+              }
+            } else {
+              return const Center(
+                child:  Image(
+                  image:AssetImage('lib/assets/images/cara_moniz_gif.gif')
+                ),
+              );
+            }
+          });
+    } else {
+      if (_firebaseUser != null) {
+        // Navigator.of(context).pop();
+        return HomeScreen();
+      }
+      // Navigator.of(context).pop();
+      return LoginScreen();
     }
-  // Navigator.of(context).pop();
-    return LoginScreen();
-    
   }
 }

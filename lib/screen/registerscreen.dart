@@ -254,7 +254,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         onPressed: () async {
           //users.add({'name':'Leoanrdo','Funciona':'sim'}).then((value) => print('user ADDED'));
-          
+
           await submit();
         },
         child: const Text(
@@ -268,10 +268,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Future<void> submit() async {
-    
     final form = formKey.currentState!;
     form.save();
-    
+
     if (form.validate()) {
       buildLoading(context);
       final x = await context.read<AuthService>().signUp(
@@ -280,12 +279,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
           name: name!,
           age: age!,
           phone: phone!);
-          Navigator.of(context).pop();
-     
-      (x == true)
-          ? Navigator.push(
-              context, MaterialPageRoute(builder: (context) => HomeScreen()))
-          : null;
+      Navigator.of(context).pop();
+
+      if (x == true) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => HomeScreen(),
+          ),
+          (route) => false,
+        );
+      }
     }
   }
 
