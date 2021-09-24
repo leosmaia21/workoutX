@@ -11,10 +11,11 @@ class AuthService {
 
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
-  // Future<String?> getUser() async{
-  // final User user = await FirebaseAuth.instance.currentUser();
-  //   final String uid = user.uid.toString();
-  // return uid;
+  // Future<User?> getUser() {
+    
+  // final User? user =  _firebaseAuth.currentUser;
+    
+  // return user;
   // }
 
   Future<void> signOut() async {

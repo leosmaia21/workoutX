@@ -5,7 +5,7 @@ import 'package:provider/src/provider.dart';
 import 'package:workout/screen/registerscreen.dart';
 import 'package:workout/services/authservice.dart';
 import 'package:workout/utilities/loading.dart';
-
+import 'package:flutter/services.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -194,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
         width: double.infinity,
         decoration: const BoxDecoration(
           // image: DecorationImage(
-          //   image: AssetImage('lib\assets\images\moniz_crl.PNG'),
+          //   image: AssetImage('lib/assets/images/moniz_crl.png'),
           //   alignment: Alignment.bottomRight,
           //   fit: BoxFit.cover,
           // ),

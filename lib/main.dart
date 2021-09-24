@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:workout/screen/homescreen.dart';
 import 'package:workout/screen/loginscreen.dart';
 import 'package:workout/services/authservice.dart';
+import 'package:workout/utilities/loading.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,7 +45,9 @@ class MyApp extends StatelessWidget {
           );
         } else {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: Image(
+            image: AssetImage('lib/assets/images/cara_moniz_gif.gif'),
+          ),
           );
         }
       },
@@ -52,15 +55,23 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
 class Wrapper extends StatelessWidget {
-  const Wrapper({Key? key}) : super(key: key);
+   Wrapper({Key? key}) : super(key: key);
+  var first=true;
 
   @override
   Widget build(BuildContext context) {
-    final _firebaseUser = context.watch<User?>();
+   // buildLoading(context);
+    
+    var _firebaseUser =  context.watch<User?>();
     if (_firebaseUser != null) {
+     // Navigator.of(context).pop();
       return HomeScreen();
+      
     }
+  // Navigator.of(context).pop();
     return LoginScreen();
+    
   }
 }
