@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
         } else {
           return const Center(
             child: Image(
-              image: AssetImage('lib/assets/images/cara_moniz_gif.gif'),
+              image: AssetImage('lib/assets/images/cara_moniz_gif1.gif'),
             ),
           );
         }
@@ -99,7 +99,7 @@ class _WrapperState extends State<Wrapper> {
             } else {
               return const Center(
                 child:  Image(
-                  image:AssetImage('lib/assets/images/cara_moniz_gif.gif')
+                  image:AssetImage('lib/assets/images/cara_moniz_gif1.gif')
                 ),
               );
             }
