@@ -16,16 +16,17 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: _drawer(),
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            Icons.menu,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            // do something
-          },
-        ),
+        // leading: IconButton(
+        //   icon: Icon(
+        //     Icons.menu,
+        //     color: Colors.white,
+        //   ),
+        //   onPressed: () {
+        //     // do something
+        //   },
+        // ),
         actions: <Widget>[
           TextButton(
             style: TextButton.styleFrom(
@@ -56,4 +57,17 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+  Widget _drawer(){
+      return Drawer(
+
+
+
+      );
+
+  }
+
+
+
+
+
 }

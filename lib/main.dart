@@ -64,8 +64,10 @@ class Wrapper extends StatefulWidget {
 }
 
 class _WrapperState extends State<Wrapper> {
-  var first = true;
+  var first;
   Future? x;
+  
+  
 
   Future _getU() async {
     await FirebaseAuth.instance.currentUser?.reload();
@@ -78,6 +80,8 @@ class _WrapperState extends State<Wrapper> {
     // TODO: implement initState
     super.initState();
     x = _getU();
+    first = true;
+
   }
 
   @override

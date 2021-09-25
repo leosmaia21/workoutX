@@ -7,7 +7,7 @@ buildLoading(BuildContext context) {
       builder: (BuildContext context) {
         return const Center(
           child: Image(
-            image: AssetImage('lib/assets/images/cara_moniz_gif1.gif'),
+            image: AssetImage('lib/assets/images/cara_moniz_gif.gif'),
           ),
         );
       });

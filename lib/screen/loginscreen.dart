@@ -6,6 +6,7 @@ import 'package:workout/screen/registerscreen.dart';
 import 'package:workout/services/authservice.dart';
 import 'package:workout/utilities/loading.dart';
 import 'package:flutter/services.dart';
+import 'package:workout/utilities/toast.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -129,12 +130,13 @@ class _LoginScreenState extends State<LoginScreen> {
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
         ),
-        onPressed: () async {
+        onPressed: ()  {
           buildLoading(context);
-          await context
+          context
               .read<AuthService>()
-              .signIn(_emailController.text, _passwordController.text);
-          Navigator.of(context).pop();
+              .signIn(_emailController.text, _passwordController.text).then((value) =>Navigator.of(context).pop());
+          toast("teste");
+          //Navigator.of(context).pop();
           print("dialog final");
           //users.add({'name':'Leoanrdo','Funciona':'sim'}).then((value) => print('user ADDED'));
         },
