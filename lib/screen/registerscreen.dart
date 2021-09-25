@@ -21,8 +21,8 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final formKey = GlobalKey<FormState>();
 
-  final _nameController = TextEditingController();
-  final _ageController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _passwordConfirmController = TextEditingController();
 
   String? email;
   String? password;
@@ -83,6 +83,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
         TextFormField(
+          controller: _passwordController,
           validator: (value) =>
               value!.length < 6 ? "Mínimo 6 caracteres" : null,
 
@@ -101,6 +102,58 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             errorMaxLines: 2,
             hintText: 'Palavra-passe',
+            hintStyle: TextStyle(color: Colors.black),
+            border: InputBorder.none,
+            // focusedBorder: OutlineInputBorder(
+            //   borderRadius: BorderRadius.all(Radius.circular(30.0)),
+            //   borderSide: BorderSide(color: Colors.blue),
+            // ),
+            contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _passwordConfirm() {
+    return Stack(
+      children: [
+        Container(
+          height: 50,
+          decoration: BoxDecoration(
+            color: Colors.yellow[200],
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+        TextFormField(
+          controller: _passwordConfirmController,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return "Mínimo 6 caracteres";
+            } else {
+              if (_passwordController.text != _passwordConfirmController.text) {
+                return "Palavras-passe diferentes";
+              }
+              return null;
+            }
+
+            //value!.length < 6 ? "Mínimo 6 caracteres" : null,
+          },
+          onSaved: (val) => password = val,
+          style: TextStyle(
+            color: Colors.black,
+          ),
+          obscureText: true,
+          keyboardType: TextInputType.name,
+          //controller: _controllerUsername,
+          autocorrect: false,
+          decoration: const InputDecoration(
+            errorStyle: TextStyle(
+              fontSize: 15,
+              color: Colors.black,
+            ),
+            errorMaxLines: 2,
+            hintText: ' Confirmar palavra-passe',
             hintStyle: TextStyle(color: Colors.black),
             border: InputBorder.none,
             // focusedBorder: OutlineInputBorder(
@@ -284,11 +337,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       Navigator.of(context).pop();
 
       if (x == true) {
-        Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => Wrapper()),
-            (_) => false
-    );
+        Navigator.pushAndRemoveUntil(context,
+            MaterialPageRoute(builder: (context) => Wrapper()), (_) => false);
       }
     }
   }
@@ -350,6 +400,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 _email(),
                 SizedBox(height: 20.0),
                 _password(),
+                SizedBox(height: 20),
+                _passwordConfirm(),
                 SizedBox(height: 20),
 
                 _buttonLogin(context),
