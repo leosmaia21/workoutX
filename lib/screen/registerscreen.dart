@@ -23,6 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   final _passwordController = TextEditingController();
   final _passwordConfirmController = TextEditingController();
+  String? _emailError;
 
   String? email;
   String? password;
@@ -52,7 +53,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           keyboardType: TextInputType.emailAddress,
           //controller: _controllerUsername,
           autocorrect: false,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
+            errorText: _emailError,
             errorStyle: TextStyle(
               fontSize: 15,
               color: Colors.black,
@@ -309,7 +311,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         onPressed: () async {
           //users.add({'name':'Leoanrdo','Funciona':'sim'}).then((value) => print('user ADDED'));
-
+          FocusScope.of(context).unfocus();
           await submit();
         },
         child: const Text(
@@ -339,6 +341,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (x == true) {
         Navigator.pushAndRemoveUntil(context,
             MaterialPageRoute(builder: (context) => Wrapper()), (_) => false);
+      }
+      if (x == false) {
+        setState(() {
+          _emailError = "Email já usado";
+        });
       }
     }
   }
