@@ -1,12 +1,17 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:provider/src/provider.dart';
 import 'package:workout/screen/registerscreen.dart';
 import 'package:workout/services/authservice.dart';
 import 'package:workout/utilities/loading.dart';
 import 'package:flutter/services.dart';
 import 'package:workout/utilities/toast.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -18,93 +23,102 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  String? _emailError;
+  String? _passwordError;
+
   Widget _email() {
-    return Container(
-      height: 60,
-      alignment: Alignment.center,
-      margin: const EdgeInsets.symmetric(
-        vertical: 20,
-        //horizontal: 10,
-      ),
-      //height: 50,
-      decoration: BoxDecoration(
-        color: Color(0xFFE60505),
-        borderRadius: BorderRadius.circular(50.0),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 20.0,
-            offset: Offset(0, 10),
+    return Stack(
+      children: [
+        Container(
+          height: 60,
+          decoration: BoxDecoration(
+            color: Color(0xFFE60505),
+            borderRadius: BorderRadius.circular(30),
           ),
-        ],
-      ),
-      child: TextField(
-        keyboardType: TextInputType.emailAddress,
-        controller: _emailController,
-        style: const TextStyle(
-          color: Colors.white,
-          fontFamily: 'OpenSans',
         ),
-        decoration: const InputDecoration(
-            border: InputBorder.none,
-            //contentPadding: EdgeInsets.zero,
-            prefixIcon: Icon(
+        TextFormField(
+          controller: _emailController,
+          // validator: (value) =>
+          //     value!.length < 6 ? "Mínimo 6 caracteres" : null,
+
+          // onSaved: (val) => password = val,
+          style: TextStyle(
+            color: Colors.black,
+          ),
+          obscureText: false,
+          keyboardType: TextInputType.emailAddress,
+          //controller: _controllerUsername,
+          autocorrect: false,
+          decoration: InputDecoration(
+            errorText: _emailError,
+            errorStyle: TextStyle(
+              fontSize: 15,
+              color: Colors.black,
+            ),
+            prefixIcon: const Icon(
               Icons.person,
               color: Colors.white,
             ),
-            hintText: 'Enter your Email',
-            hintStyle: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-            )
-            //hintStyle: kHintTextStyle,
-            ),
-      ),
+            errorMaxLines: 2,
+            hintText: 'Email',
+            hintStyle: TextStyle(color: Colors.black),
+            border: InputBorder.none,
+            // focusedBorder: OutlineInputBorder(
+            //   borderRadius: BorderRadius.all(Radius.circular(30.0)),
+            //   borderSide: BorderSide(color: Colors.blue),
+            // ),
+            contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          ),
+        ),
+      ],
     );
   }
 
   Widget _password() {
-    return Container(
-      height: 60,
-      alignment: Alignment.center,
-      margin: const EdgeInsets.symmetric(
-        vertical: 10,
-        //horizontal: 10,
-      ),
-      //height: 50,
-      decoration: BoxDecoration(
-        color: Color(0xFFE60505),
-        borderRadius: BorderRadius.circular(50.0),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 20.0,
-            offset: Offset(0, 10),
+    return Stack(
+      children: [
+        Container(
+          height: 60,
+          decoration: BoxDecoration(
+            color: Color(0xFFE60505),
+            borderRadius: BorderRadius.circular(30),
           ),
-        ],
-      ),
-      child: TextField(
-        controller: _passwordController,
-        obscureText: true,
-        style: const TextStyle(
-          color: Colors.white,
-          fontFamily: 'OpenSans',
         ),
-        decoration: const InputDecoration(
-            border: InputBorder.none,
-            //contentPadding: EdgeInsets.only(top: 14.0),
-            prefixIcon: Icon(
+        TextFormField(
+          controller: _passwordController,
+          // validator: (value) =>
+          //     value!.length < 6 ? "Mínimo 6 caracteres" : null,
+
+          // onSaved: (val) => password = val,
+          style: TextStyle(
+            color: Colors.black,
+          ),
+          obscureText: true,
+          keyboardType: TextInputType.name,
+          //controller: _controllerUsername,
+          autocorrect: false,
+          decoration: InputDecoration(
+            errorText: _passwordError,
+            errorStyle: TextStyle(
+              fontSize: 15,
+              color: Colors.black,
+            ),
+            prefixIcon: const Icon(
               Icons.lock,
               color: Colors.white,
             ),
-            hintText: 'Enter your password',
-            hintStyle: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-            )
-            //hintStyle: kHintTextStyle,
-            ),
-      ),
+            errorMaxLines: 2,
+            hintText: 'Palavra-passe',
+            hintStyle: TextStyle(color: Colors.black),
+            border: InputBorder.none,
+            // focusedBorder: OutlineInputBorder(
+            //   borderRadius: BorderRadius.all(Radius.circular(30.0)),
+            //   borderSide: BorderSide(color: Colors.blue),
+            // ),
+            contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          ),
+        ),
+      ],
     );
   }
 
@@ -130,13 +144,34 @@ class _LoginScreenState extends State<LoginScreen> {
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
         ),
-        onPressed: ()  {
+        onPressed: () async {
+          _emailError = null;
+          _passwordError = null;
+          FocusScope.of(context).unfocus();
           buildLoading(context);
-          context
+          String? x = await context
               .read<AuthService>()
-              .signIn(_emailController.text, _passwordController.text).then((value) =>Navigator.of(context).pop());
-          toast("teste");
-          //Navigator.of(context).pop();
+              .signIn(_emailController.text, _passwordController.text);
+
+          Navigator.of(context).pop();
+
+          if (EmailValidator.validate(_emailController.text) == false) {
+            setState(() {
+              _emailError = "Email inválido";
+            });
+          } else if (x == 'user-not-found') {
+            setState(() {
+              _emailError = "Email não encontrado";
+            });
+          } else if (_passwordController.text.length < 6) {
+            setState(() {
+              _passwordError = "6 caracteres";
+            });
+          } else if (x == 'wrong-password') {
+            setState(() {
+              _passwordError = "Palavra-passe errada";
+            });
+          }
           print("dialog final");
           //users.add({'name':'Leoanrdo','Funciona':'sim'}).then((value) => print('user ADDED'));
         },
@@ -187,7 +222,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        
         padding: const EdgeInsets.symmetric(
           horizontal: 40.0,
           vertical: 50.0,
@@ -233,7 +267,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               //SizedBox(height: 60.0),
               _email(),
-              //SizedBox(height: 30.0),
+              SizedBox(height: 30.0),
               _password(),
               // SizedBox(
               //   width: 40,

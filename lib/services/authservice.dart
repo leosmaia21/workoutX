@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:workout/databasemanager/databasemanager.dart';
 import 'package:workout/utilities/toast.dart';
@@ -27,12 +28,14 @@ class AuthService {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
-      return "agora deu";
+      return null;
     } on FirebaseAuthException catch (e) {
+      print("erro singIn: "+e.code);
       if (e.code == 'user-not-found') {
-        toast("Email nao registrado");
+       
+        return e.code;
       } else if (e.code == 'wrong-password') {
-        toast('Palavra-passe errada');
+        return e.code;
       }
     }
   }
