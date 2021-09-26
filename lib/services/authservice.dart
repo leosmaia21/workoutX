@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:workout/databasemanager/databasemanager.dart';
-import 'package:workout/screen/homescreen.dart';
 import 'package:workout/utilities/toast.dart';
 
 class AuthService {
@@ -12,13 +10,13 @@ class AuthService {
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
   Future<bool?> getUser() async {
-  await _firebaseAuth.currentUser?.reload();
-  final x =_firebaseAuth.currentUser;
-  if(x==null) {
-    return true;
-  }else{
-  return null;
-  }
+    await _firebaseAuth.currentUser?.reload();
+    final x = _firebaseAuth.currentUser;
+    if (x == null) {
+      return true;
+    } else {
+      return null;
+    }
   }
 
   Future<void> signOut() async {

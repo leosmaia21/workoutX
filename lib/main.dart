@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -64,15 +63,16 @@ class Wrapper extends StatefulWidget {
 }
 
 class _WrapperState extends State<Wrapper> {
-  var first;
+  static bool first=true;
   Future? x;
-  
-  
 
-  Future _getU() async {
+  Future<bool> _getU() async {
     await FirebaseAuth.instance.currentUser?.reload();
-    return FirebaseAuth.instance.currentUser;
-
+    if (FirebaseAuth.instance.currentUser == null) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   @override
@@ -80,31 +80,32 @@ class _WrapperState extends State<Wrapper> {
     // TODO: implement initState
     super.initState();
     x = _getU();
-    first = true;
-
+     //first = true;
+    
   }
 
   @override
   Widget build(BuildContext context) {
     // buildLoading(context);
     var _firebaseUser = context.watch<User?>();
-    if (first) {
+    if (first==true) {
       return FutureBuilder(
           future: x,
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasData) {
               if (FirebaseAuth.instance.currentUser != null) {
                 first = false;
+                print("current user exist");
                 return HomeScreen();
               } else {
                 first = false;
+                print("current user null");
                 return LoginScreen();
               }
             } else {
               return const Center(
-                child:  Image(
-                  image:AssetImage('lib/assets/images/cara_moniz_gif1.gif')
-                ),
+                child: Image(
+                    image: AssetImage('lib/assets/images/cara_moniz_gif1.gif')),
               );
             }
           });
