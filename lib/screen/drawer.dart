@@ -32,30 +32,33 @@ class NavigationDrawer extends StatelessWidget {
                   minHeight: constraints.maxHeight,
                   maxHeight: double.infinity,
                 ),
-                child: IntrinsicHeight(
-                  child: SafeArea(
-                    child: Column(
-                      children: [
-                        Column(
-                          children: <Widget>[
-                            SizedBox(
-                              height: 50,
-                            ),
-                            buildMenuItem("text", Icons.fitness_center, () {
-                              null;
-                            }),
-                          ],
-                        ),
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [Text('ola'),Text('hola'),]
-                            ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: IntrinsicHeight(
+                    child: SafeArea(
+                      child: Column(
+                        children: [
+                          Column(
+                            children: <Widget>[
+                              SizedBox(
+                                height: 50,
+                              ),
+                              buildMenuItem("text", Icons.fitness_center, () {
+                                null;
+                              }),
+                            ],
                           ),
-                        )
-                      ],
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [Text('ola'),Text('hola'),]
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
