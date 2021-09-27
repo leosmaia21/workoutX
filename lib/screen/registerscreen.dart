@@ -374,45 +374,47 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ],
             ),
           ),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 50,
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20.0,
-                    vertical: 20.0,
+          child: SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 50,
                   ),
-                  child: const Text(
-                    "Criar conta",
-                    //textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'OpenSans',
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0,
+                      vertical: 20.0,
+                    ),
+                    child: const Text(
+                      "Criar conta",
+                      //textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'OpenSans',
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                //SizedBox(height: 60.0),
-                _name(),
-                SizedBox(height: 20.0),
-                _phone(),
-                SizedBox(height: 20.0),
-                _age(),
-                SizedBox(height: 20.0),
-                _email(),
-                SizedBox(height: 20.0),
-                _password(),
-                SizedBox(height: 20),
-                _passwordConfirm(),
-                SizedBox(height: 20),
-
-                _buttonLogin(context),
-              ],
+                  //SizedBox(height: 60.0),
+                  _name(),
+                  SizedBox(height: 20.0),
+                  _phone(),
+                  SizedBox(height: 20.0),
+                  _age(),
+                  SizedBox(height: 20.0),
+                  _email(),
+                  SizedBox(height: 20.0),
+                  _password(),
+                  SizedBox(height: 20),
+                  _passwordConfirm(),
+                  SizedBox(height: 20),
+          
+                  _buttonLogin(context),
+                ],
+              ),
             ),
           ),
         ),

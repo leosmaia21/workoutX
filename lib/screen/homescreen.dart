@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 import 'package:workout/services/authservice.dart';
 
+import 'drawer.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -16,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: _drawer(),
+      drawer: NavigationDrawer(),
       appBar: AppBar(
         // leading: IconButton(
         //   icon: Icon(
@@ -57,14 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-  Widget _drawer(){
-      return Drawer(
-
-
-
-      );
-
-  }
+  
 
 
 

@@ -49,7 +49,11 @@ dev_dependencies:
 flutter:
   assets:
     - lib/assets/images/   
-    
+  fonts:
+    - family:  Measure
+      fonts:
+       - asset: lib\assets\icons\Measure.ttf
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

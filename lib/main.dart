@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           print('You have an error!');
-          return Text('Alguma coisa deu erro');
+          return const Text('Alguma coisa deu erro');
         } else if (snapshot.hasData) {
           return MultiProvider(
             providers: [
@@ -39,7 +39,11 @@ class MyApp extends StatelessWidget {
             ],
             child: MaterialApp(
               title: 'Flutter Demo',
-              theme: ThemeData.dark(),
+              theme: ThemeData(
+                colorScheme: ColorScheme.fromSwatch(
+                  primarySwatch: Colors.blueGrey,
+                ),
+              ),
               home: Wrapper(),
             ),
           );
@@ -56,14 +60,14 @@ class MyApp extends StatelessWidget {
 }
 
 class Wrapper extends StatefulWidget {
-  Wrapper({Key? key}) : super(key: key);
+  const Wrapper({Key? key}) : super(key: key);
 
   @override
   State<Wrapper> createState() => _WrapperState();
 }
 
 class _WrapperState extends State<Wrapper> {
-  static bool first=true;
+  static bool first = true;
   Future? x;
 
   Future<bool> _getU() async {
@@ -77,18 +81,17 @@ class _WrapperState extends State<Wrapper> {
 
   @override
   void initState() {
-    // TODO: implement initState
+   
     super.initState();
     x = _getU();
-     //first = true;
-    
+    //first = true;
   }
 
   @override
   Widget build(BuildContext context) {
     // buildLoading(context);
     var _firebaseUser = context.watch<User?>();
-    if (first==true) {
+    if (first == true) {
       return FutureBuilder(
           future: x,
           builder: (context, snapshot) {
@@ -96,11 +99,11 @@ class _WrapperState extends State<Wrapper> {
               if (FirebaseAuth.instance.currentUser != null) {
                 first = false;
                 print("current user exist");
-                return HomeScreen();
+                return const HomeScreen();
               } else {
                 first = false;
                 print("current user null");
-                return LoginScreen();
+                return const LoginScreen();
               }
             } else {
               return const Center(
@@ -112,10 +115,10 @@ class _WrapperState extends State<Wrapper> {
     } else {
       if (_firebaseUser != null) {
         // Navigator.of(context).pop();
-        return HomeScreen();
+        return const HomeScreen();
       }
       // Navigator.of(context).pop();
-      return LoginScreen();
+      return const LoginScreen();
     }
   }
 }

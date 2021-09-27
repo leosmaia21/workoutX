@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             errorMaxLines: 2,
             hintText: 'Email',
-            hintStyle: TextStyle(color: Colors.black),
+            hintStyle: TextStyle(color: Colors.white),
             border: InputBorder.none,
             // focusedBorder: OutlineInputBorder(
             //   borderRadius: BorderRadius.all(Radius.circular(30.0)),
@@ -109,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             errorMaxLines: 2,
             hintText: 'Palavra-passe',
-            hintStyle: TextStyle(color: Colors.black),
+            hintStyle: TextStyle(color: Colors.white),
             border: InputBorder.none,
             // focusedBorder: OutlineInputBorder(
             //   borderRadius: BorderRadius.all(Radius.circular(30.0)),
@@ -238,44 +238,46 @@ class _LoginScreenState extends State<LoginScreen> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFFF46404),
-              Color(0xFFE0740F),
-              Color(0xFFC08043),
-              Color(0xFFDB9F89),
+              Color(0xFFFA8538),
+              Color(0xFFF7B271),
+              Color(0xFFF0CCAB),
+              Color(0xFFFAEDE8),
             ],
           ),
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20.0,
-                  vertical: 20.0,
-                ),
-                child: const Text(
-                  "Login",
-                  //textAlign: TextAlign.left,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'OpenSans',
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.bold,
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0,
+                    vertical: 20.0,
+                  ),
+                  child: const Text(
+                    "Login",
+                    //textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'OpenSans',
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              ),
-              //SizedBox(height: 60.0),
-              _email(),
-              SizedBox(height: 30.0),
-              _password(),
-              // SizedBox(
-              //   width: 40,
-              // ),
-              _buttonLogin(context),
+                //SizedBox(height: 60.0),
+                _email(),
+                SizedBox(height: 30.0),
+                _password(),
+                // SizedBox(
+                //   width: 40,
+                // ),
+                _buttonLogin(context),
 
-              _registerButton(),
-            ],
+                _registerButton(),
+              ],
+            ),
           ),
         ),
       ),
