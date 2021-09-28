@@ -73,7 +73,7 @@ class Wrapper extends StatefulWidget {
 class _WrapperState extends State<Wrapper> {
   static bool first = true;
   Future? x;
-
+  Future? _name;
   Future<bool> _getU() async {
     await FirebaseAuth.instance.currentUser?.reload();
     if (FirebaseAuth.instance.currentUser == null) {
@@ -88,12 +88,14 @@ class _WrapperState extends State<Wrapper> {
     super.initState();
     x = _getU();
     //first = true;
+    _name = context.read<DatabaseManager>().Name();
   }
 
   @override
   Widget build(BuildContext context) {
     // buildLoading(context);
     var _firebaseUser = context.watch<User?>();
+    
     if (first == true) {
       return FutureBuilder(
           future: x,
@@ -101,9 +103,22 @@ class _WrapperState extends State<Wrapper> {
             if (snapshot.hasData) {
               if (FirebaseAuth.instance.currentUser != null) {
                 first = false;
-                context.read<DatabaseManager>().Name();
                 print("current user exist");
-                return const HomeScreen();
+                return FutureBuilder(
+                  future: _name,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState==ConnectionState.done){
+                      return HomeScreen();
+                    } else {
+                      return const Center(
+                        child: Image(
+                          image: AssetImage(
+                              'lib/assets/images/cara_moniz_gif1.gif'),
+                        ),
+                      );
+                    }
+                  },
+                );
               } else {
                 first = false;
                 print("current user null");

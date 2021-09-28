@@ -23,6 +23,7 @@ class DatabaseManager {
     var data = x.data() as Map;
     print(data['name']);
     _userName = data['name'];
+   
   }
 
   String? getName() {

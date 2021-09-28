@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/src/provider.dart';
 import 'package:workout/databasemanager/databasemanager.dart';
 import 'package:workout/services/authservice.dart';
@@ -15,8 +18,8 @@ class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    var name=context.watch<DatabaseManager>().getName();
-    
+    var name = context.watch<DatabaseManager>().getName();
+
     return Drawer(
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -55,7 +58,6 @@ class NavigationDrawer extends StatelessWidget {
                                 "Treinos antigos",
                                 Icons.fitness_center,
                                 () {
-                                 
                                   null;
                                 },
                               ),
@@ -66,11 +68,10 @@ class NavigationDrawer extends StatelessWidget {
                                   'Peso', Icons.monitor_weight_outlined, () {
                                 null;
                               }),
-                               buildMenuItem(
+                              buildMenuItem(
                                 "Fotografias",
                                 Icons.photo,
                                 () {
-                                 
                                   null;
                                 },
                               ),
@@ -135,9 +136,15 @@ class NavigationDrawer extends StatelessWidget {
             ),
           ),
           Align(
-            child:Text( name),
+            alignment: Alignment.centerRight + Alignment(-0.2, -0.4),
+            child: Text(
+              name,
+              style: GoogleFonts.amita(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-              
+          ),
         ],
       ),
     );
