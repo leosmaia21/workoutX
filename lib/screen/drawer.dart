@@ -1,15 +1,22 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
+import 'package:provider/src/provider.dart';
+import 'package:workout/databasemanager/databasemanager.dart';
+import 'package:workout/services/authservice.dart';
 import 'package:workout/utilities/measure_icons.dart';
 import 'package:workout/utilities/toast.dart';
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    var name=context.watch<DatabaseManager>().getName();
+    
     return Drawer(
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -40,21 +47,48 @@ class NavigationDrawer extends StatelessWidget {
                         children: [
                           Column(
                             children: <Widget>[
-                              SizedBox(
-                                height: 50,
+                              header(name!),
+                              // SizedBox(
+                              //   height: 50,
+                              // ),
+                              buildMenuItem(
+                                "Treinos antigos",
+                                Icons.fitness_center,
+                                () {
+                                 
+                                  null;
+                                },
                               ),
-                              buildMenuItem("text", Icons.fitness_center, () {
+                              buildMenuItem('Medições', Measure.ruler, () {
+                                toast("funciona");
+                              }),
+                              buildMenuItem(
+                                  'Peso', Icons.monitor_weight_outlined, () {
                                 null;
                               }),
+                               buildMenuItem(
+                                "Fotografias",
+                                Icons.photo,
+                                () {
+                                 
+                                  null;
+                                },
+                              ),
                             ],
                           ),
                           Expanded(
                             child: Align(
                               alignment: Alignment.bottomLeft,
                               child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [Text('ola'),Text('hola'),]
-                              ),
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    ListTile(
+                                      leading: Icon(Icons.logout),
+                                      title: Text('Terminar sessão'),
+                                      onTap: () =>
+                                          context.read<AuthService>().signOut(),
+                                    )
+                                  ]),
                             ),
                           )
                         ],
@@ -87,5 +121,25 @@ class NavigationDrawer extends StatelessWidget {
           ),
         ),
         onTap: onClicked);
+  }
+
+  Widget header(String name) {
+    return DrawerHeader(
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: CircleAvatar(
+              backgroundColor: Colors.blue,
+              radius: 40,
+            ),
+          ),
+          Align(
+            child:Text( name),
+            ),
+              
+        ],
+      ),
+    );
   }
 }

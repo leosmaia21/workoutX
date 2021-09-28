@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:workout/databasemanager/databasemanager.dart';
 import 'package:workout/screen/homescreen.dart';
 import 'package:workout/screen/loginscreen.dart';
 import 'package:workout/services/authservice.dart';
@@ -30,6 +31,9 @@ class MyApp extends StatelessWidget {
             providers: [
               Provider<AuthService>(
                 create: (_) => AuthService(FirebaseAuth.instance),
+              ),
+              Provider<DatabaseManager>(
+                create: (_) => DatabaseManager(),
               ),
               StreamProvider(
                 create: (context) =>
@@ -81,7 +85,6 @@ class _WrapperState extends State<Wrapper> {
 
   @override
   void initState() {
-   
     super.initState();
     x = _getU();
     //first = true;
@@ -98,6 +101,7 @@ class _WrapperState extends State<Wrapper> {
             if (snapshot.hasData) {
               if (FirebaseAuth.instance.currentUser != null) {
                 first = false;
+                context.read<DatabaseManager>().Name();
                 print("current user exist");
                 return const HomeScreen();
               } else {

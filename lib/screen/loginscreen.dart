@@ -43,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
           // onSaved: (val) => password = val,
           style: TextStyle(
-            color: Colors.black,
+            color: Colors.white,
           ),
           obscureText: false,
           keyboardType: TextInputType.emailAddress,
@@ -91,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
           // onSaved: (val) => password = val,
           style: TextStyle(
-            color: Colors.black,
+            color: Colors.white,
           ),
           obscureText: true,
           keyboardType: TextInputType.name,
