@@ -24,8 +24,8 @@ class NavigationDrawer extends StatefulWidget {
 }
 
 class _NavigationDrawerState extends State<NavigationDrawer> {
-  PickedFile? _imageFile;
-  final ImagePicker _picker = ImagePicker();
+  File? _imageFile;
+
   @override
   Widget build(BuildContext context) {
     var name = context.read<DatabaseManager>().getName();
@@ -164,27 +164,32 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
       ),
     );
   }
+  // child: (_imageFile == null)
+  //               ? Image(
+  //                   image: AssetImage('lib/assets/images/cara_moniz_gif1.gif'),
+  //                   fit: BoxFit.cover)
+  //               : Image.file(_imageFile!),
+
+  backgroudImage(){
+    if(_imageFile != null){
+      return  FileImage(_imageFile!);
+    }else{return AssetImage('lib/assets/images/cara_moniz_gif1.gif');
+
+    }
+  }
 
   Widget imageProfile() {
     return Stack(
       children: [
         CircleAvatar(
-          radius: 60,
-          // child: Image(
-              // image:  _imageFile==null?
-              //  AssetImage('lib/assets/images/cara_moniz_gif1.gif'):
-              //  FileImage(File(_imageFile.path)),,
-              // fit: BoxFit.none),
-          // backgroundImage:
-          // _imageFile==null?
-          //      AssetImage('lib/assets/images/cara_moniz_gif1.gif'):
-          //      FileImage(File(_imageFile.path)),
+            radius: 50,
+            backgroundImage:backgroudImage(),
 
             // roundColor: Colors.transparent,
-        ),
+            ),
         Positioned(
-          bottom: 20,
-          right: 20,
+          bottom: 15,
+          right: 15,
           child: Builder(builder: (context) {
             return InkWell(
               onTap: () {
@@ -232,7 +237,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                   ),
                   // SizedBox(width: 20),
                   TextButton.icon(
-                    onPressed: () async{
+                    onPressed: () async {
                       await takePhoto(ImageSource.gallery);
                     },
                     icon: Icon(Icons.image),
@@ -252,12 +257,14 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
     );
   }
 
- Future<void> takePhoto(ImageSource source) async {
-    final pickedFile = await _picker.pickImage(
+  Future<void> takePhoto(ImageSource source) async {
+    var pickedFile = await ImagePicker().pickImage(
       source: source,
     );
     setState(() {
-      _imageFile = pickedFile as PickedFile?;
+      if (pickedFile != null) {
+        _imageFile = File(pickedFile.path);
+      }
     });
   }
 }
