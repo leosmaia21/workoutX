@@ -94,52 +94,52 @@ class _WrapperState extends State<Wrapper> {
   Widget build(BuildContext context) {
     // buildLoading(context);
     // var _firebaseUser = context.watch<User?>();
-    
+
     if (first == true) {
       return FutureBuilder(
-          future: x,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              if (FirebaseAuth.instance.currentUser != null) {
-               
-                print("current user exist");
-                return FutureBuilder(
-                  future: context.read<DatabaseManager>().Name(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState==ConnectionState.done){
-                       first = false;
-                      return HomeScreen();
-                    } else {
-                      return const Center(
-                        child: Image(
-                          image: AssetImage(
-                              'lib/assets/images/cara_moniz_gif1.gif'),
-                        ),
-                      );
-                    }
-                  },
-                );
-              } else {
-                first = false;
-                print("current user null");
-                return const LoginScreen();
-              }
-            } else {
-              return const Center(
-                child: Image(
-                    image: AssetImage('lib/assets/images/cara_moniz_gif1.gif')),
+        future: x,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            if (FirebaseAuth.instance.currentUser != null) {
+              print("current user exist");
+              return FutureBuilder(
+                future: context.read<DatabaseManager>().Name(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    first = false;
+                    return HomeScreen();
+                  } else {
+                    return const Center(
+                      child: Image(
+                        image:
+                            AssetImage('lib/assets/images/cara_moniz_gif1.gif'),
+                      ),
+                    );
+                  }
+                },
               );
+            } else {
+              first = false;
+              print("current user null");
+              return const LoginScreen();
             }
-          });
+          } else {
+            return const Center(
+              child: Image(
+                image: AssetImage('lib/assets/images/cara_moniz_gif1.gif'),
+              ),
+            );
+          }
+        },
+      );
     } else {
-      if (FirebaseAuth.instance.currentUser != null ) {
+      if (context.read<AuthService>().getUser() != null) {
         // Navigator.of(context).pop();
-      // await context.read<DatabaseManager>().Name();
+        // await context.read<DatabaseManager>().Name();
         return const HomeScreen();
       }
       // Navigator.of(context).pop();
       return const LoginScreen();
     }
   }
- 
 }
