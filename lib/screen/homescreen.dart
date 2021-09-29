@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout/databasemanager/databasemanager.dart';
 import 'package:workout/services/authservice.dart';
-
 import 'drawer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -23,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
       // context.read<DatabaseManager>().Name();
     return Scaffold(
       extendBodyBehindAppBar: true,
-      drawer: const NavigationDrawer(),
+      drawer:  NavigationDrawer(),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,

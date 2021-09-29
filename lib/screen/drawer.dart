@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,16 +8,24 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/src/provider.dart';
+import 'package:provider/provider.dart';
 import 'package:workout/databasemanager/databasemanager.dart';
 import 'package:workout/services/authservice.dart';
 import 'package:workout/utilities/measure_icons.dart';
 import 'package:workout/utilities/toast.dart';
-
+import 'package:image_picker/image_picker.dart';
 import '../main.dart';
 
-class NavigationDrawer extends StatelessWidget {
-  const NavigationDrawer({Key? key}) : super(key: key);
+class NavigationDrawer extends StatefulWidget {
+  NavigationDrawer({Key? key}) : super(key: key);
+
+  @override
+  State<NavigationDrawer> createState() => _NavigationDrawerState();
+}
+
+class _NavigationDrawerState extends State<NavigationDrawer> {
+  PickedFile? _imageFile;
+  final ImagePicker _picker = ImagePicker();
   @override
   Widget build(BuildContext context) {
     var name = context.read<DatabaseManager>().getName();
@@ -85,13 +94,19 @@ class NavigationDrawer extends StatelessWidget {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     ListTile(
-                                      leading: Icon(Icons.logout),
-                                      title: Text('Terminar sessão'),
-                                      onTap: ()async {
-                                         await context.read<AuthService>().signOut();
-                                         Navigator.pushAndRemoveUntil(context,
-                                              MaterialPageRoute(builder: (context) => Wrapper()), (_) => false);}
-                                    )
+                                        leading: Icon(Icons.logout),
+                                        title: Text('Terminar sessão'),
+                                        onTap: () async {
+                                          await context
+                                              .read<AuthService>()
+                                              .signOut();
+                                          Navigator.pushAndRemoveUntil(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Wrapper()),
+                                              (_) => false);
+                                        })
                                   ]),
                             ),
                           )
@@ -133,10 +148,7 @@ class NavigationDrawer extends StatelessWidget {
         children: [
           Align(
             alignment: Alignment.centerLeft,
-            child: CircleAvatar(
-              backgroundColor: Colors.blue,
-              radius: 40,
-            ),
+            child: imageProfile(),
           ),
           Align(
             alignment: Alignment.centerRight + Alignment(-0.2, -0.4),
@@ -151,5 +163,101 @@ class NavigationDrawer extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget imageProfile() {
+    return Stack(
+      children: [
+        CircleAvatar(
+          radius: 60,
+          // child: Image(
+              // image:  _imageFile==null?
+              //  AssetImage('lib/assets/images/cara_moniz_gif1.gif'):
+              //  FileImage(File(_imageFile.path)),,
+              // fit: BoxFit.none),
+          // backgroundImage:
+          // _imageFile==null?
+          //      AssetImage('lib/assets/images/cara_moniz_gif1.gif'):
+          //      FileImage(File(_imageFile.path)),
+
+            // roundColor: Colors.transparent,
+        ),
+        Positioned(
+          bottom: 20,
+          right: 20,
+          child: Builder(builder: (context) {
+            return InkWell(
+              onTap: () {
+                showModalBottomSheet(
+                    context: context, builder: ((context) => bottomSheet()));
+              }, //funcao carregar na camera
+              child: Icon(
+                Icons.camera_alt,
+                color: Colors.teal,
+                size: 28,
+              ),
+            );
+          }),
+        )
+      ],
+    );
+  }
+
+  Widget bottomSheet() {
+    return Builder(
+      builder: (context) {
+        return Container(
+          height: 100,
+          width: MediaQuery.of(context).size.width,
+          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          child: Column(
+            children: [
+              Text(
+                'Escolher fotografia',
+                style: TextStyle(fontSize: 20),
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  TextButton.icon(
+                    onPressed: () async {
+                      await takePhoto(ImageSource.camera);
+                    },
+                    icon: Icon(Icons.camera),
+                    label: Text(
+                      'Câmera',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                  // SizedBox(width: 20),
+                  TextButton.icon(
+                    onPressed: () async{
+                      await takePhoto(ImageSource.gallery);
+                    },
+                    icon: Icon(Icons.image),
+                    label: Text(
+                      'Galeria',
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+ Future<void> takePhoto(ImageSource source) async {
+    final pickedFile = await _picker.pickImage(
+      source: source,
+    );
+    setState(() {
+      _imageFile = pickedFile as PickedFile?;
+    });
   }
 }
