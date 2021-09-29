@@ -171,8 +171,8 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   //               : Image.file(_imageFile!),
 
   backgroudImage(){
-    if(_imageFile != null){
-      return  FileImage(_imageFile!);
+    if(context.read<DatabaseManager>().imageFile!= null){
+      return  FileImage(context.read<DatabaseManager>().imageFile!);
     }else{return AssetImage('lib/assets/images/cara_moniz_gif1.gif');
 
     }
@@ -263,7 +263,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
     );
     setState(() {
       if (pickedFile != null) {
-        _imageFile = File(pickedFile.path);
+        context.read<DatabaseManager>().imageFile = File(pickedFile.path);
       }
     });
   }

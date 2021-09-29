@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -6,6 +8,8 @@ class DatabaseManager {
 
   String? _userName;
   String? _userUID;
+  File? imageFile;   // fotografia do drawer 
+  String? imagePath;
   Future<void> insertUser(
       {required String name,
       required String email,
@@ -20,7 +24,7 @@ class DatabaseManager {
   Future<void> Name() async {
     // FirebaseAuth.instance.currentUser.reload();
     User? user = FirebaseAuth.instance.currentUser;
-    
+
     _userUID = user!.uid.toString();
     print('Utilizador!!!!  ' + _userUID!);
     DocumentSnapshot x = await users.doc(_userUID).get();
