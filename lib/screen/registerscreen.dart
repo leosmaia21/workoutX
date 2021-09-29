@@ -32,6 +32,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String? phone;
   String? age;
   String? name;
+  String? surname;
 
   Widget _email() {
     return Stack(
@@ -234,7 +235,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
           //controller: _nameController,
           obscureText: false,
-          keyboardType: TextInputType.name,
+          keyboardType: TextInputType.text,
+          textCapitalization: TextCapitalization.sentences,
           //controller: _controllerUsername,
           autocorrect: false,
           decoration: const InputDecoration(
@@ -244,6 +246,45 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             errorMaxLines: 2,
             hintText: 'Nome',
+            hintStyle: TextStyle(color: Colors.black),
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _surname() {
+    return Stack(
+      children: [
+        Container(
+          height: 50,
+          decoration: BoxDecoration(
+            color: Colors.yellow[200],
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+        TextFormField(
+          validator: (value) => value!.isEmpty ? "Insira apelido" : null,
+
+          onSaved: (val) => surname = val,
+          style: TextStyle(
+            color: Colors.black,
+          ),
+          //controller: _nameController,
+          obscureText: false,
+          keyboardType: TextInputType.text,
+          textCapitalization: TextCapitalization.sentences,
+          //controller: _controllerUsername,
+          autocorrect: false,
+          decoration: const InputDecoration(
+            errorStyle: TextStyle(
+              fontSize: 15,
+              color: Colors.black,
+            ),
+            errorMaxLines: 2,
+            hintText: 'Apelido',
             hintStyle: TextStyle(color: Colors.black),
             border: InputBorder.none,
             contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
@@ -332,10 +373,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     if (form.validate()) {
       buildLoading(context);
+      String nameComplete = name! + ' ' + surname!;
       final x = await context.read<AuthService>().signUp(
           email: email!,
           password: password!,
-          name: name!,
+          name: nameComplete,
           age: age!,
           phone: phone!);
       Navigator.of(context).pop();
@@ -343,8 +385,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (x == true) {
         await context.read<DatabaseManager>().Name();
         goWrapper(context);
-      }
-      else {
+      } else {
         setState(() {
           _emailError = "Email já usado";
         });
@@ -403,6 +444,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   //SizedBox(height: 60.0),
                   _name(),
                   SizedBox(height: 20.0),
+                  _surname(),
+                  SizedBox(height: 20),
                   _phone(),
                   SizedBox(height: 20.0),
                   _age(),
@@ -413,7 +456,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   SizedBox(height: 20),
                   _passwordConfirm(),
                   SizedBox(height: 20),
-          
+
                   _buttonLogin(context),
                 ],
               ),
