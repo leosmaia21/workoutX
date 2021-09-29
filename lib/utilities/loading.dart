@@ -6,7 +6,7 @@ buildLoading(BuildContext context) {
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) {
-      return Image(
+      return const Image(
         image: AssetImage('lib/assets/images/cara_moniz_gif.gif'),
       );
     },

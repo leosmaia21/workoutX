@@ -5,7 +5,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:provider/src/provider.dart';
+import 'package:provider/provider.dart';
 import 'package:workout/databasemanager/databasemanager.dart';
 import 'package:workout/screen/registerscreen.dart';
 import 'package:workout/services/authservice.dart';

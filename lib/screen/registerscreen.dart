@@ -3,7 +3,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/src/provider.dart';
+import 'package:provider/provider.dart';
 import 'package:workout/databasemanager/databasemanager.dart';
 import 'package:workout/screen/homescreen.dart';
 import 'package:workout/services/authservice.dart';
