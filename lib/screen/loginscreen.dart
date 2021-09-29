@@ -148,27 +148,31 @@ class _LoginScreenState extends State<LoginScreen> {
           String? x = await context
               .read<AuthService>()
               .signIn(_emailController.text, _passwordController.text);
-           await context.read<DatabaseManager>().Name(); 
-          Navigator.of(context).pop();
-           goWrapper(context);
-            
 
           if (EmailValidator.validate(_emailController.text) == false) {
+            Navigator.of(context).pop();
             setState(() {
               _emailError = "Email inválido";
             });
           } else if (x == 'user-not-found') {
+            Navigator.of(context).pop();
             setState(() {
               _emailError = "Email não encontrado";
             });
           } else if (_passwordController.text.length < 6) {
+            Navigator.of(context).pop();
             setState(() {
               _passwordError = "6 caracteres";
             });
           } else if (x == 'wrong-password') {
+            Navigator.of(context).pop();
             setState(() {
               _passwordError = "Palavra-passe errada";
             });
+          } else if(x==null) {
+            await context.read<DatabaseManager>().Name();
+            Navigator.of(context).pop();
+            goWrapper(context);
           }
           print("dialog final");
           //users.add({'name':'Leoanrdo','Funciona':'sim'}).then((value) => print('user ADDED'));

@@ -20,14 +20,13 @@ class DatabaseManager {
   Future<void> Name() async {
     // FirebaseAuth.instance.currentUser.reload();
     User? user = FirebaseAuth.instance.currentUser;
-   
-      _userUID= user!.uid.toString();
+    
+    _userUID = user!.uid.toString();
     print('Utilizador!!!!  ' + _userUID!);
     DocumentSnapshot x = await users.doc(_userUID).get();
     var data = x.data() as Map;
     print(data['name']);
     _userName = data['name'];
-    
   }
 
   String? getName() {

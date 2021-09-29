@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_constructors
 
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
       // context.read<DatabaseManager>().Name();
     return Scaffold(
       extendBodyBehindAppBar: true,
-      drawer: NavigationDrawer(),
+      drawer: const NavigationDrawer(),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -33,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
             return Builder(
               builder: (context) {
                 return IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.menu,
                     color: Colors.black,
                   ),
