@@ -4,8 +4,10 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/src/provider.dart';
+import 'package:workout/databasemanager/databasemanager.dart';
 import 'package:workout/screen/homescreen.dart';
 import 'package:workout/services/authservice.dart';
+import 'package:workout/utilities/gowrapper.dart';
 import 'package:workout/utilities/loading.dart';
 
 import '../main.dart';
@@ -339,10 +341,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       Navigator.of(context).pop();
 
       if (x == true) {
-        Navigator.pushAndRemoveUntil(context,
-            MaterialPageRoute(builder: (context) => Wrapper()), (_) => false);
+        await context.read<DatabaseManager>().Name();
+        goWrapper(context);
       }
-      if (x == false) {
+      else {
         setState(() {
           _emailError = "Email já usado";
         });

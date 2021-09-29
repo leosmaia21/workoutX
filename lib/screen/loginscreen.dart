@@ -6,11 +6,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:provider/src/provider.dart';
+import 'package:workout/databasemanager/databasemanager.dart';
 import 'package:workout/screen/registerscreen.dart';
 import 'package:workout/services/authservice.dart';
+import 'package:workout/utilities/gowrapper.dart';
 import 'package:workout/utilities/loading.dart';
 import 'package:flutter/services.dart';
 import 'package:workout/utilities/toast.dart';
+
+import '../main.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -130,16 +134,8 @@ class _LoginScreenState extends State<LoginScreen> {
         vertical: 40,
         horizontal: 0,
       ),
-
-      //alignment: Alignment.center,
       height: 50,
       width: 100,
-      // margin: EdgeInsets.symmetric(
-      //   //vertical: 30,
-      //   horizontal: 0,
-      // ),
-
-      //height: 20,
       child: ElevatedButton(
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
@@ -152,8 +148,10 @@ class _LoginScreenState extends State<LoginScreen> {
           String? x = await context
               .read<AuthService>()
               .signIn(_emailController.text, _passwordController.text);
-
+           await context.read<DatabaseManager>().Name(); 
           Navigator.of(context).pop();
+           goWrapper(context);
+            
 
           if (EmailValidator.validate(_emailController.text) == false) {
             setState(() {

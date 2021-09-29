@@ -6,7 +6,6 @@ import 'package:workout/databasemanager/databasemanager.dart';
 import 'package:workout/screen/homescreen.dart';
 import 'package:workout/screen/loginscreen.dart';
 import 'package:workout/services/authservice.dart';
-import 'package:workout/utilities/loading.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -88,13 +87,13 @@ class _WrapperState extends State<Wrapper> {
     super.initState();
     x = _getU();
     //first = true;
-    _name = context.read<DatabaseManager>().Name();
+    // _name = context.read<DatabaseManager>().Name();
   }
 
   @override
   Widget build(BuildContext context) {
     // buildLoading(context);
-    var _firebaseUser = context.watch<User?>();
+    // var _firebaseUser = context.watch<User?>();
     
     if (first == true) {
       return FutureBuilder(
@@ -102,12 +101,13 @@ class _WrapperState extends State<Wrapper> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (FirebaseAuth.instance.currentUser != null) {
-                first = false;
+               
                 print("current user exist");
                 return FutureBuilder(
-                  future: _name,
+                  future: context.read<DatabaseManager>().Name(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState==ConnectionState.done){
+                       first = false;
                       return HomeScreen();
                     } else {
                       return const Center(
@@ -132,12 +132,14 @@ class _WrapperState extends State<Wrapper> {
             }
           });
     } else {
-      if (_firebaseUser != null) {
+      if (FirebaseAuth.instance.currentUser != null ) {
         // Navigator.of(context).pop();
+      // await context.read<DatabaseManager>().Name();
         return const HomeScreen();
       }
       // Navigator.of(context).pop();
       return const LoginScreen();
     }
   }
+ 
 }

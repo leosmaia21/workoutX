@@ -5,6 +5,7 @@ class DatabaseManager {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   String? _userName;
+  String? _userUID;
   Future<void> insertUser(
       {required String name,
       required String email,
@@ -17,13 +18,16 @@ class DatabaseManager {
   }
 
   Future<void> Name() async {
-    String user = FirebaseAuth.instance.currentUser!.uid.toString();
-    print('Utilizador!!!!  ' + user);
-    DocumentSnapshot x = await users.doc(user).get();
+    // FirebaseAuth.instance.currentUser.reload();
+    User? user = FirebaseAuth.instance.currentUser;
+   
+      _userUID= user!.uid.toString();
+    print('Utilizador!!!!  ' + _userUID!);
+    DocumentSnapshot x = await users.doc(_userUID).get();
     var data = x.data() as Map;
     print(data['name']);
     _userName = data['name'];
-   
+    
   }
 
   String? getName() {

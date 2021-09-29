@@ -14,11 +14,13 @@ import 'package:workout/services/authservice.dart';
 import 'package:workout/utilities/measure_icons.dart';
 import 'package:workout/utilities/toast.dart';
 
+import '../main.dart';
+
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    var name = context.watch<DatabaseManager>().getName();
+    var name = context.read<DatabaseManager>().getName();
 
     return Drawer(
       child: LayoutBuilder(
@@ -86,8 +88,10 @@ class NavigationDrawer extends StatelessWidget {
                                     ListTile(
                                       leading: Icon(Icons.logout),
                                       title: Text('Terminar sessão'),
-                                      onTap: () =>
-                                          context.read<AuthService>().signOut(),
+                                      onTap: ()async {
+                                         await context.read<AuthService>().signOut();
+                                         Navigator.pushAndRemoveUntil(context,
+                                              MaterialPageRoute(builder: (context) => Wrapper()), (_) => false);}
                                     )
                                   ]),
                             ),
