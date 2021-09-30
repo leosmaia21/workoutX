@@ -74,7 +74,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                                 },
                               ),
                               buildMenuItem('Medições', Measure.ruler, () {
-                                toast("funciona");
+                                // toast("funciona");
                               }),
                               buildMenuItem(
                                   'Peso', Icons.monitor_weight_outlined, () {
@@ -177,7 +177,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
 
   backgroudImage() {
     if (context.read<DatabaseManager>().hasPhoto== true || change==true) {
-      toast("ole");
+      // toast("ole");
       change=false;
       return context.read<DatabaseManager>().image;
     } else {

@@ -56,7 +56,7 @@ class AuthService {
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
-        toast("Email já usado");
+        // toast("Email já usado");
         return false;
       }
     }
