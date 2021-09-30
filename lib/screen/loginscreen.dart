@@ -171,6 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
             });
           } else if(x==null) {
             await context.read<DatabaseManager>().Name();
+            await context.read<DatabaseManager>().getProfileImage();
             Navigator.of(context).pop();
             goWrapper(context);
           }

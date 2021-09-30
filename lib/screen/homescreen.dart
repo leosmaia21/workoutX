@@ -13,11 +13,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final GlobalKey _scaffoldKey = new GlobalKey();
+
+ 
+  @override
+  void initState()  {
+    super.initState();
+   
+  }
+  
   String? userName;
+ 
   @override
   Widget build(BuildContext context) {
-    // context.read<DatabaseManager>().Name();
     return Scaffold(
       // key: _scaffoldKey,
       extendBodyBehindAppBar: true,
@@ -33,8 +40,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   Icons.menu,
                   color: Colors.black,
                 ),
-                onPressed: ()  {
+                onPressed: () async {
+                   
                   Scaffold.of(context).openDrawer();
+                 
                 },
               );
             });

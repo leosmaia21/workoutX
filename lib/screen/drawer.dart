@@ -2,6 +2,8 @@
 
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -100,6 +102,8 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                                           await context
                                               .read<AuthService>()
                                               .signOut();
+                                              context.read<DatabaseManager>().setLogOut();
+                                            
                                           Navigator.pushAndRemoveUntil(
                                               context,
                                               MaterialPageRoute(
@@ -169,12 +173,15 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   //                   image: AssetImage('lib/assets/images/cara_moniz_gif1.gif'),
   //                   fit: BoxFit.cover)
   //               : Image.file(_imageFile!),
+  bool change=false;
 
-  backgroudImage(){
-    if(context.read<DatabaseManager>().imageFile!= null){
-      return  FileImage(context.read<DatabaseManager>().imageFile!);
-    }else{return AssetImage('lib/assets/images/cara_moniz_gif1.gif');
-
+  backgroudImage() {
+    if (context.read<DatabaseManager>().hasPhoto== true || change==true) {
+      toast("ole");
+      change=false;
+      return context.read<DatabaseManager>().image;
+    } else {
+      return AssetImage('lib/assets/images/cara_moniz_gif1.gif');
     }
   }
 
@@ -182,11 +189,11 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
     return Stack(
       children: [
         CircleAvatar(
-            radius: 50,
-            backgroundImage:backgroudImage(),
+          radius: 50,
+          backgroundImage: backgroudImage(),
 
-            // roundColor: Colors.transparent,
-            ),
+          // roundColor: Colors.transparent,
+        ),
         Positioned(
           bottom: 15,
           right: 15,
@@ -261,10 +268,16 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
     var pickedFile = await ImagePicker().pickImage(
       source: source,
     );
-    setState(() {
-      if (pickedFile != null) {
-        context.read<DatabaseManager>().imageFile = File(pickedFile.path);
-      }
-    });
+    
+    String uid=FirebaseAuth.instance.currentUser!.uid.toString();
+    if (pickedFile != null) {
+      var path=File(pickedFile.path);
+      await FirebaseStorage.instance.ref().child('users_photos/'+uid).putFile(path);
+      await  context.read<DatabaseManager>().getProfileImage();
+      setState(() {
+       change=true;
+      });
+     
+    }
   }
 }

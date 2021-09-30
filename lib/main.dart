@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout/databasemanager/databasemanager.dart';
@@ -103,10 +104,11 @@ class _WrapperState extends State<Wrapper> {
             if (FirebaseAuth.instance.currentUser != null) {
               print("current user exist");
               return FutureBuilder(
-                future: context.read<DatabaseManager>().Name(),
+                future: context.read<DatabaseManager>().init(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     first = false;
+                    //  context.read<DatabaseManager>().getProfileImage();
                     return HomeScreen();
                   } else {
                     return const Center(
