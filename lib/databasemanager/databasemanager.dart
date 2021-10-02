@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 
 class DatabaseManager {
   final FirebaseStorage _storage = FirebaseStorage.instance;
+  final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
 
   CollectionReference users = FirebaseFirestore.instance.collection('users');
@@ -16,17 +17,17 @@ class DatabaseManager {
   File? imageFile; // fotografia do drawer
   String? urlImage;
   var image;
-  bool hasPhoto=false;
+  bool hasPhoto = false;
   //String? imagePath;
 
   Future<String?> getProfileImage() async {
     String uid = _auth.currentUser!.uid.toString();
     try {
-     String url= await _storage.ref('users_photos/' + uid).getDownloadURL();
-     urlImage=url;
-     image= NetworkImage(url);
-     hasPhoto=true;
-     return url;
+      String url = await _storage.ref('users_photos/' + uid).getDownloadURL();
+      urlImage = url;
+      image = NetworkImage(url);
+      hasPhoto = true;
+      return url;
     } catch (e) {
       print('foto NAO buscada na storage');
       print(e.toString());
@@ -34,8 +35,8 @@ class DatabaseManager {
     }
   }
 
-  Future init() async{
- User? user = _auth.currentUser;
+  Future init() async {
+    User? user = _auth.currentUser;
 
     _userUID = user!.uid.toString();
     print('Utilizador!!!!  ' + _userUID!);
@@ -44,20 +45,32 @@ class DatabaseManager {
     print(data['name']);
     _userName = data['name'];
 
-     String uid = _auth.currentUser!.uid.toString();
+    String uid = _auth.currentUser!.uid.toString();
     try {
-     String url= await _storage.ref('users_photos/' + uid).getDownloadURL();
-     urlImage=url;
-     image= NetworkImage(url);
-     hasPhoto=true;
-   
+      String url = await _storage.ref('users_photos/' + uid).getDownloadURL();
+      urlImage = url;
+      image = NetworkImage(url);
+      hasPhoto = true;
     } catch (e) {
       print('foto NAO buscada na storage');
       print(e.toString());
-   
     }
   }
 
+  Future<Map> getWorkouts() async {
+    String uid = _auth.currentUser!.uid.toString();
+    try {
+      DocumentSnapshot x =
+          await _firestore.collection('workouts').doc(uid).get();
+      var xx = x.data() as Map;
+      print('treinos:');
+      print(xx);
+      return xx;
+    } catch (e) {
+      print('não há treinos');
+      return {};
+    }
+  }
 
   Future<void> insertUser(
       {required String name,
@@ -86,12 +99,12 @@ class DatabaseManager {
     return _userName;
   }
 
-  void setLogOut(){
-   _userName= null;
-   _userUID=null;
-   imageFile=null; // fotografia do drawer
-   urlImage=null;
-   image=null;
-   hasPhoto=false;
+  void setLogOut() {
+    _userName = null;
+    _userUID = null;
+    imageFile = null; // fotografia do drawer
+    urlImage = null;
+    image = null;
+    hasPhoto = false;
   }
 }
