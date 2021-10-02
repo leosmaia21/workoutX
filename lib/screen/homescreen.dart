@@ -60,8 +60,14 @@ class _HomeScreenState extends State<HomeScreen> {
             return Column(
               children: [
                 SizedBox(height: MediaQuery.of(context).size.height * 0.15),
-                for (int i = 1; i <= x!.length; i++)
-                  tile(Icons.ac_unit_outlined, x!['$i'], 10),
+                SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      for (int i = 1; i <= x!.length; i++)
+                        tile(Icons.ac_unit_outlined, x!['$i'], 10),
+                    ],
+                  ),
+                )
               ],
             );
           } else {
@@ -89,10 +95,9 @@ class _HomeScreenState extends State<HomeScreen> {
           horizontal: 20,
         ),
         child: InkWell(
-          
           onTap: () => toast('ole'),
           child: Card(
-            // margin: EdgeInsets.zero,
+            margin: EdgeInsets.symmetric(vertical: 10),
             // clipBehavior: Clip.values,
             shape: border,
             color: Colors.black45,
