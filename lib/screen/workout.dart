@@ -26,19 +26,13 @@ class _WorkoutState extends State<Workout> {
     final x = context.read<DatabaseManager>().workoutID;
     return Scaffold(
         appBar: AppBar(
-          leading: Builder(
-            builder: (context) {
-              return Builder(builder: (context) {
-                return IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.black,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                );
-              });
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
             },
           ),
         ),
