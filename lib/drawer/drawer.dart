@@ -26,7 +26,6 @@ class NavigationDrawer extends StatefulWidget {
 }
 
 class _NavigationDrawerState extends State<NavigationDrawer> {
-  File? _imageFile;
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +135,6 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             color: Colors.white,
             shadows: <Shadow>[
               Shadow(
-                //offset: Offset(10.0, 10.0),
                 blurRadius: 20.0,
                 color: Colors.black,
               ),
@@ -168,11 +166,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
       ),
     );
   }
-  // child: (_imageFile == null)
-  //               ? Image(
-  //                   image: AssetImage('lib/assets/images/cara_moniz_gif1.gif'),
-  //                   fit: BoxFit.cover)
-  //               : Image.file(_imageFile!),
+ 
   bool change=false;
 
   backgroudImage() {

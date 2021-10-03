@@ -18,13 +18,14 @@ class DatabaseManager {
   String? urlImage;
   var image;
   bool hasPhoto = false;
-  //String? imagePath;
+  int? workoutID;
 
   Future<String?> getProfileImage() async {
     String uid = _auth.currentUser!.uid.toString();
     try {
       String url = await _storage.ref('users_photos/' + uid).getDownloadURL();
       urlImage = url;
+      print('url da foto:' + url);
       image = NetworkImage(url);
       hasPhoto = true;
       return url;
@@ -49,6 +50,7 @@ class DatabaseManager {
     try {
       String url = await _storage.ref('users_photos/' + uid).getDownloadURL();
       urlImage = url;
+      print('url da foto:' + url);
       image = NetworkImage(url);
       hasPhoto = true;
     } catch (e) {
@@ -57,12 +59,31 @@ class DatabaseManager {
     }
   }
 
-  Future<Map> getWorkouts() async {
+  Future<Map> getListWorkouts() async {
     String uid = _auth.currentUser!.uid.toString();
     try {
       DocumentSnapshot x =
           await _firestore.collection('workouts').doc(uid).get();
       var xx = x.data() as Map;
+      print('treinos:');
+      print(xx);
+      return xx;
+    } catch (e) {
+      print('não há treinos');
+      return {};
+    }
+  }
+
+  Future<Map?> getworkout() async {
+    String uid = _auth.currentUser!.uid.toString();
+    try {
+      DocumentSnapshot x = await _firestore
+          .collection('workouts')
+          .doc(uid)
+          .collection('workout')
+          .doc('$workoutID')
+          .get();
+      var xx = x.data() as Map?;
       print('treinos:');
       print(xx);
       return xx;

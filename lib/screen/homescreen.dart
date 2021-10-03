@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   initState() {
     super.initState();
-    _workouts = context.read<DatabaseManager>().getWorkouts();
+    _workouts = context.read<DatabaseManager>().getListWorkouts();
   }
 
   String? userName;
@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Icons.menu,
                   color: Colors.black,
                 ),
-                onPressed: () async {
+                onPressed: ()  {
                   Scaffold.of(context).openDrawer();
                 },
               );
@@ -61,10 +61,11 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 SizedBox(height: MediaQuery.of(context).size.height * 0.15),
                 SingleChildScrollView(
-                  child: Column( ////
+                  child: Column(
+                    ////
                     children: [
                       for (int i = 1; i <= x!.length; i++)
-                        tile(Icons.ac_unit_outlined, x!['$i'], 10),
+                        tile(Icons.ac_unit_outlined, x!['$i'], 10, i),
                     ],
                   ),
                 )
@@ -82,10 +83,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget tile(IconData icon, String name, int number) {
+  Widget tile(IconData icon, String name, int number, int i) {
     final border =
         RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0));
-    return Container(
+    return SizedBox(
       // alignment: Alignment.center,
       // width: MediaQuery.of(context).size.width,
       height: 100,
@@ -95,7 +96,12 @@ class _HomeScreenState extends State<HomeScreen> {
           horizontal: 20,
         ),
         child: InkWell(
-          onTap: () => toast('ole'),
+          customBorder: border,
+          onTap: () {
+            context.read<DatabaseManager>().workoutID = i;
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Workout()));
+          },
           child: Card(
             margin: EdgeInsets.symmetric(vertical: 10),
             // clipBehavior: Clip.values,
