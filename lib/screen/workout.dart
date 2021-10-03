@@ -47,7 +47,7 @@ class _WorkoutState extends State<Workout> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               exercises = snapshot.data as Map;
-              return _workout();
+              return _workout(x);
             } else {
               return const Center(
                 child: CircularProgressIndicator(),
@@ -57,8 +57,10 @@ class _WorkoutState extends State<Workout> {
         ));
   }
 
-  Widget _workout() {
+  Widget _workout(int? x) {
     print(exercises);
-    return Text('ole');
+    return Center(
+      child: Text('$x'),
+    );
   }
 }

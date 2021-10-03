@@ -85,7 +85,7 @@ class DatabaseManager {
           .get();
       var xx = x.data() as Map?;
       print('treinos:');
-      print(xx);
+      // print(xx);
       return xx;
     } catch (e) {
       print('não há treinos');
