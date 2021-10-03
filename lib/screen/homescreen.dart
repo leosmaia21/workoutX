@@ -61,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 SizedBox(height: MediaQuery.of(context).size.height * 0.15),
                 SingleChildScrollView(
-                  child: Column( ////
+                  child: Column( 
                     children: [
                       for (int i = 1; i <= x!.length; i++)
                         tile(Icons.ac_unit_outlined, x!['$i'], 10),
