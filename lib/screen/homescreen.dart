@@ -7,7 +7,7 @@ import 'package:workout/databasemanager/databasemanager.dart';
 import 'package:workout/screen/workout.dart';
 import 'package:workout/services/authservice.dart';
 import 'package:workout/utilities/toast.dart';
-import 'drawer.dart';
+import '../drawer/drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
