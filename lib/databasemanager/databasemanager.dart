@@ -15,16 +15,17 @@ class DatabaseManager {
   String? _userName;
   String? _userUID;
   File? imageFile; // fotografia do drawer
-  String? urlImage;
   var image;
   bool hasPhoto = false;
   int? workoutID;
+  String? workoutName;
+  int? exerciseID;
+  List? exerciseNameAndReps;
 
   Future<String?> getProfileImage() async {
     String uid = _auth.currentUser!.uid.toString();
     try {
       String url = await _storage.ref('users_photos/' + uid).getDownloadURL();
-      urlImage = url;
       print('url da foto:' + url);
       image = NetworkImage(url);
       hasPhoto = true;
@@ -49,7 +50,6 @@ class DatabaseManager {
     String uid = _auth.currentUser!.uid.toString();
     try {
       String url = await _storage.ref('users_photos/' + uid).getDownloadURL();
-      urlImage = url;
       print('url da foto:' + url);
       image = NetworkImage(url);
       hasPhoto = true;
@@ -59,7 +59,7 @@ class DatabaseManager {
     }
   }
 
-  Future<Map> getListWorkouts() async {
+  Future<Map> getWorkoutsList() async {
     String uid = _auth.currentUser!.uid.toString();
     try {
       DocumentSnapshot x =
@@ -124,7 +124,6 @@ class DatabaseManager {
     _userName = null;
     _userUID = null;
     imageFile = null; // fotografia do drawer
-    urlImage = null;
     image = null;
     hasPhoto = false;
   }

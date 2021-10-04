@@ -5,13 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:workout/databasemanager/databasemanager.dart';
-import 'package:workout/screen/homescreen.dart';
 import 'package:workout/services/authservice.dart';
 import 'package:workout/utilities/gowrapper.dart';
 import 'package:workout/utilities/loading.dart';
-
-import '../main.dart';
-
 //import 'package:cloud_firestore/cloud_firestore.dart';
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);

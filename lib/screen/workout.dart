@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout/databasemanager/databasemanager.dart';
+import 'package:workout/screen/workout/exercise.dart';
 import 'package:workout/utilities/toast.dart';
 
 class Workout extends StatefulWidget {
@@ -42,6 +43,7 @@ class _WorkoutState extends State<Workout> {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasData) {
                 exercises = snapshot.data as Map;
+
                 return _workout(x);
               } else {
                 return Center(
@@ -60,23 +62,25 @@ class _WorkoutState extends State<Workout> {
   Widget _workout(int? x) {
     print(exercises);
     return Column(
-              children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-                SingleChildScrollView(
-                  child: Column(
-                    ////
-                    children: [
-                      for (int i = 1; i <= exercises!.length; i++)
-                        tile(Icons.fitness_center, exercises!['$i'], 10, i),
-                    ],
-                  ),
-                )
-              ],
-            );
+      children: [
+        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+        SingleChildScrollView(
+          child: Column(
+            ////
+            children: [
+              for (int i = 1; i <= exercises!.length; i++)
+                tile(Icons.fitness_center, exercises!['$i'], 10, i),
+            ],
+          ),
+        )
+      ],
+    );
   }
+
   Widget tile(IconData icon, String name, int number, int i) {
     final border =
         RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0));
+    List exerciseNameAndReps = name.split('/');
     return SizedBox(
       // alignment: Alignment.center,
       // width: MediaQuery.of(context).size.width,
@@ -89,9 +93,12 @@ class _WorkoutState extends State<Workout> {
         child: InkWell(
           customBorder: border,
           onTap: () {
-            // context.read<DatabaseManager>().workoutID = i;
-            // Navigator.push(
-            //     context, MaterialPageRoute(builder: (context) => Workout()));
+            context.read<DatabaseManager>().exerciseID = i;
+            context.read<DatabaseManager>().exerciseNameAndReps =
+                exerciseNameAndReps;
+            print(context.read<DatabaseManager>().exerciseNameAndReps![0]);
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Exercise()));
           },
           child: Card(
             margin: EdgeInsets.symmetric(vertical: 10),
@@ -109,7 +116,7 @@ class _WorkoutState extends State<Workout> {
                     Icon(icon),
                     SizedBox(width: 20),
                     Text(
-                      name,
+                      exerciseNameAndReps[0],
                       style: TextStyle(fontSize: 20),
                     ),
                   ],
@@ -117,7 +124,10 @@ class _WorkoutState extends State<Workout> {
                 // SizedBox(width: MediaQuery.of(context).size.width * 0.2),
                 Row(
                   children: [
-                    Text('$number'),
+                    Text(
+                      exerciseNameAndReps[1],
+                      style: TextStyle(fontSize: 17),
+                    ),
                     SizedBox(width: 30),
                   ],
                 ),

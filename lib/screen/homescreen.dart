@@ -1,12 +1,10 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout/databasemanager/databasemanager.dart';
 import 'package:workout/screen/workout.dart';
-import 'package:workout/services/authservice.dart';
-import 'package:workout/utilities/toast.dart';
+
 import '../drawer/drawer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   initState() {
     super.initState();
-    _workouts = context.read<DatabaseManager>().getListWorkouts();
+    _workouts = context.read<DatabaseManager>().getWorkoutsList();
   }
 
   String? userName;
@@ -44,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Icons.menu,
                   color: Colors.black,
                 ),
-                onPressed: ()  {
+                onPressed: () {
                   Scaffold.of(context).openDrawer();
                 },
               );
@@ -99,6 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
           customBorder: border,
           onTap: () {
             context.read<DatabaseManager>().workoutID = i;
+            context.read<DatabaseManager>().workoutName = name;
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => Workout()));
           },
