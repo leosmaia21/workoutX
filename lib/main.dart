@@ -76,7 +76,7 @@ class _WrapperState extends State<Wrapper> {
   Future? x;
   Future? _name;
   Future<bool> _getU() async {
-    await FirebaseAuth.instance.currentUser?.reload();
+    // await FirebaseAuth.instance.currentUser?.reload();
     if (FirebaseAuth.instance.currentUser == null) {
       return false;
     } else {

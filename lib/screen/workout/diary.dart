@@ -10,7 +10,7 @@ class Diary extends StatefulWidget {
 class _DiaryState extends State<Diary> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body:
+    return const Scaffold(body:
       Center(child: Text('ole'),)
       
     );

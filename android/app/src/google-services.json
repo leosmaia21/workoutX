@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "336207990797",
-    "project_id": "workout-74151",
-    "storage_bucket": "workout-74151.appspot.com"
+    "project_number": "804474355738",
+    "project_id": "workout-593e5",
+    "storage_bucket": "workout-593e5.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:336207990797:android:c6038c262b3e4c2d97c544",
+        "mobilesdk_app_id": "1:804474355738:android:51ede878c73fe8dd91d1a3",
         "android_client_info": {
           "package_name": "com.example.workout"
         }
       },
       "oauth_client": [
         {
-          "client_id": "336207990797-fs74en67pjbupqaji1vpshj3l29ai975.apps.googleusercontent.com",
+          "client_id": "804474355738-iu6uibb5fb3tq1v63fplni6tp5fc1q2m.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAwCHnEeuVxv_ilRtV9ZM2_8_tctPiBvOE"
+          "current_key": "AIzaSyB5bS7DggXMQtAvwk6_gPMa37uIE4MzYuk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "336207990797-fs74en67pjbupqaji1vpshj3l29ai975.apps.googleusercontent.com",
+              "client_id": "804474355738-iu6uibb5fb3tq1v63fplni6tp5fc1q2m.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
