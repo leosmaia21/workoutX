@@ -39,9 +39,15 @@ class _WorkoutState extends State<Workout> {
         body: FutureBuilder(
           future: _load,
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              exercises = snapshot.data as Map;
-              return _workout(x);
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasData) {
+                exercises = snapshot.data as Map;
+                return _workout(x);
+              } else {
+                return Center(
+                  child: Text('nao ha treinos'),
+                );
+              }
             } else {
               return const Center(
                 child: CircularProgressIndicator(),
@@ -53,8 +59,74 @@ class _WorkoutState extends State<Workout> {
 
   Widget _workout(int? x) {
     print(exercises);
-    return Center(
-      child: Text('$x'),
+    return Column(
+              children: [
+                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                SingleChildScrollView(
+                  child: Column(
+                    ////
+                    children: [
+                      for (int i = 1; i <= exercises!.length; i++)
+                        tile(Icons.fitness_center, exercises!['$i'], 10, i),
+                    ],
+                  ),
+                )
+              ],
+            );
+  }
+  Widget tile(IconData icon, String name, int number, int i) {
+    final border =
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0));
+    return SizedBox(
+      // alignment: Alignment.center,
+      // width: MediaQuery.of(context).size.width,
+      height: 100,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          // vertical: 20,
+          horizontal: 20,
+        ),
+        child: InkWell(
+          customBorder: border,
+          onTap: () {
+            // context.read<DatabaseManager>().workoutID = i;
+            // Navigator.push(
+            //     context, MaterialPageRoute(builder: (context) => Workout()));
+          },
+          child: Card(
+            margin: EdgeInsets.symmetric(vertical: 10),
+            // clipBehavior: Clip.values,
+            shape: border,
+            color: Colors.black45,
+            elevation: 7,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  children: [
+                    SizedBox(width: 20),
+                    Icon(icon),
+                    SizedBox(width: 20),
+                    Text(
+                      name,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
+                // SizedBox(width: MediaQuery.of(context).size.width * 0.2),
+                Row(
+                  children: [
+                    Text('$number'),
+                    SizedBox(width: 30),
+                  ],
+                ),
+                // SizedBox(width: 20),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
