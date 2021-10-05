@@ -10,10 +10,9 @@ class AuthService {
 
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
-  User? getUser()  {
+  User? getUser() {
     //await _firebaseAuth.currentUser?.reload();
     return _firebaseAuth.currentUser;
-   
   }
 
   Future<void> signOut() async {
@@ -26,9 +25,8 @@ class AuthService {
           email: email, password: password);
       return null;
     } on FirebaseAuthException catch (e) {
-      print("erro singIn: "+e.code);
+      print("erro singIn: " + e.code);
       if (e.code == 'user-not-found') {
-       
         return e.code;
       } else if (e.code == 'wrong-password') {
         return e.code;
@@ -55,6 +53,7 @@ class AuthService {
 
       return true;
     } on FirebaseAuthException catch (e) {
+      print('ole:'+e.code);
       if (e.code == 'email-already-in-use') {
         // toast("Email já usado");
         return false;
